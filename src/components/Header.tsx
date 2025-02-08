@@ -1,7 +1,12 @@
 import React, { useState } from "react";
-import { Search, Bell, User, ChevronDown } from "lucide-react";
+import { Search, Bell, User, ChevronDown, Menu, X } from "lucide-react";
 
-function Header() {
+interface HeaderProps {
+  toggleSidebar: () => void;
+  isSidebarOpen: boolean;
+}
+
+function Header({ toggleSidebar, isSidebarOpen }: HeaderProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -10,15 +15,28 @@ function Header() {
   };
 
   return (
-    <header className="bg-indigo-500 text-white py-4 px-6 flex items-center justify-between shadow-md">
-      {/* Greeting Message */}
-      <div className="flex items-center space-x-2">
+    <header className="bg-indigo-500 text-white py-4 px-6 flex items-center justify-between shadow-md w-full">
+      {/* Left Section: Sidebar Toggle & Greeting */}
+      <div className="flex items-center space-x-4">
+        {/* Sidebar Toggle Button */}
+        <button
+          onClick={toggleSidebar}
+          className="lg:hidden focus:outline-none"
+        >
+          {isSidebarOpen ? (
+            <X className="w-6 h-6" />
+          ) : (
+            <Menu className="w-6 h-6" />
+          )}
+        </button>
+
+        {/* Greeting */}
         <h1 className="text-xl font-bold">SchoolFeed</h1>
-        <span className="text-sm">Hello, Admin!</span>
+        <span className="text-sm hidden sm:inline">Hello, Admin!</span>
       </div>
 
-      {/* Search Bar */}
-      <div className="relative w-full max-w-md">
+      {/* Middle Section: Search Bar (Hidden on Mobile) */}
+      <div className="relative w-full max-w-md hidden sm:block">
         <input
           type="text"
           placeholder="Search..."
@@ -29,7 +47,7 @@ function Header() {
         <Search className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
       </div>
 
-      {/* Notifications and Profile */}
+      {/* Right Section: Notifications & Profile */}
       <div className="flex items-center space-x-4">
         {/* Notification Icon */}
         <Bell className="w-6 h-6 cursor-pointer" />

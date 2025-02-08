@@ -1,21 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { Users, CreditCard, Calendar, Bell, Home, LogOut } from "lucide-react";
+import {
+  Users,
+  CreditCard,
+  Calendar,
+  Bell,
+  Home,
+  LogOut,
+  Menu,
+  X,
+  Search,
+  User,
+  ChevronDown,
+} from "lucide-react";
 import { Toaster } from "react-hot-toast";
 import Dashboard from "./components/Dashboard";
 import Students from "./components/Students";
 import Payments from "./components/Payments";
 import Attendance from "./components/Attendance";
 import Alerts from "./components/Alerts";
-import Header from "./components/Header"; 
-import Footer from "./components/Footer"; 
+import Footer from "./components/Footer";
 
 function App() {
   const [activeTab, setActiveTab] = useState(() => {
-    // Retrieve the active tab from localStorage on component mount
     return localStorage.getItem("activeTab") || "dashboard";
   });
 
-  // Update localStorage whenever the activeTab changes
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+
   useEffect(() => {
     localStorage.setItem("activeTab", activeTab);
   }, [activeTab]);
@@ -48,37 +61,118 @@ function App() {
   return (
     <div className="flex flex-col h-screen bg-gray-100">
       {/* Header */}
-      <Header />
+      <header className="bg-indigo-500 text-white py-4 px-6 flex items-center justify-between shadow-md w-full">
+        {/* Left Section: Sidebar Toggle & Greeting */}
+        <div className="flex items-center space-x-4">
+          <button
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            className="lg:hidden focus:outline-none"
+          >
+            {isSidebarOpen ? (
+              <X className="w-6 h-6" />
+            ) : (
+              <Menu className="w-6 h-6" />
+            )}
+          </button>
+          <h1 className="text-xl font-bold">SchoolFeed</h1>
+          <span className="text-sm hidden sm:inline">Hello, Admin!</span>
+        </div>
+
+        {/* Middle Section: Search Bar (Hidden on Mobile) */}
+        <div className="relative w-full max-w-md hidden sm:block">
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-gray-700"
+          />
+          <Search className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
+        </div>
+
+        {/* Right Section: Notifications & Profile */}
+        <div className="flex items-center space-x-4">
+          <Bell className="w-6 h-6 cursor-pointer" />
+          <div className="relative">
+            <button
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="flex items-center space-x-2 cursor-pointer"
+            >
+              <User className="w-8 h-8 bg-gray-700 rounded-full" />
+              <ChevronDown className="w-4 h-4" />
+            </button>
+            {isDropdownOpen && (
+              <div
+                className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-lg text-gray-700"
+                onMouseLeave={() => setIsDropdownOpen(false)}
+              >
+                <a href="#" className="block px-4 py-2 hover:bg-gray-100">
+                  Account Settings
+                </a>
+                <a href="#" className="block px-4 py-2 hover:bg-gray-100">
+                  Change Password
+                </a>
+                <a href="#" className="block px-4 py-2 hover:bg-gray-100">
+                  Logout
+                </a>
+              </div>
+            )}
+          </div>
+        </div>
+      </header>
+
       {/* Main Content */}
       <div className="flex flex-1">
-        {/* Sidebar */}
-        <div className="w-64 bg-white shadow-lg">
-          <div className="p-6">
-            <h1 className="text-2xl font-bold">
-              <span className="text-gray-800">School</span>
-              <span className="text-indigo-600">Feed</span>
-            </h1>
-            <p className="text-sm">
-              <span className="text-indigo-600">Feeding Fee </span>
-              <span className="text-gray-600">Management</span>
-            </p>
+        {/* Sidebar with Mobile Toggle */}
+        <div
+          className={`fixed inset-0 bg-black bg-opacity-50 z-40 ${
+            isSidebarOpen ? "block" : "hidden"
+          } lg:hidden`}
+          onClick={() => setIsSidebarOpen(false)}
+        ></div>
+
+        <div
+          className={`fixed lg:relative z-50 lg:z-auto top-0 left-0 h-full w-64 bg-white shadow-lg transition-transform transform ${
+            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } lg:translate-x-0`}
+        >
+          {/* Sidebar Header */}
+          <div className="p-6 flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold">
+                <span className="text-gray-800">School</span>
+                <span className="text-indigo-600">Feed</span>
+              </h1>
+              <p className="text-sm">
+                <span className="text-indigo-600">Feeding Fee </span>
+                <span className="text-gray-600">Management</span>
+              </p>
+            </div>
+            <button
+              onClick={() => setIsSidebarOpen(false)}
+              className="lg:hidden text-gray-700"
+            >
+              <X className="w-6 h-6" />
+            </button>
           </div>
+
+          {/* Navigation */}
           <nav className="mt-6">
-            {tabs.map((tab) => {
-              const Icon = tab.icon;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`w-full flex items-center px-6 py-4 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors ${
-                    activeTab === tab.id ? "bg-indigo-50 text-indigo-600" : ""
-                  }`}
-                >
-                  <Icon className="w-5 h-5 mr-3" />
-                  {tab.name}
-                </button>
-              );
-            })}
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => {
+                  setActiveTab(tab.id);
+                  setIsSidebarOpen(false);
+                }}
+                className={`w-full flex items-center px-6 py-4 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors ${
+                  activeTab === tab.id ? "bg-indigo-50 text-indigo-600" : ""
+                }`}
+              >
+                <tab.icon className="w-5 h-5 mr-3" />
+                {tab.name}
+              </button>
+            ))}
             <button className="w-full flex items-center px-6 py-4 text-red-600 hover:bg-red-50 transition-colors mt-auto">
               <LogOut className="w-5 h-5 mr-3" />
               Logout
@@ -91,8 +185,10 @@ function App() {
           <div className="p-8">{renderContent()}</div>
         </div>
       </div>
+
       {/* Footer */}
       <Footer />
+
       {/* Toaster for notifications */}
       <Toaster position="top-right" />
     </div>
