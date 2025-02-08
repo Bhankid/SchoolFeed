@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Calendar, DollarSign, AlertCircle } from 'lucide-react';
+import { Calendar, CircleDollarSign, AlertCircle } from 'lucide-react';
+import { Switch } from "@headlessui/react";
 
 function Payments() {
   const [activeTab, setActiveTab] = useState('record');
+  const [isPresent, setIsPresent] = useState(false);
 
   return (
     <div>
@@ -12,17 +14,17 @@ function Payments() {
         <div className="border-b border-gray-200">
           <nav className="-mb-px flex space-x-8" aria-label="Tabs">
             {[
-              { id: 'record', name: 'Record Payment' },
-              { id: 'credit', name: 'Credit Payments' },
-              { id: 'irregular', name: 'Irregular Payments' },
+              { id: "record", name: "Record Payment" },
+              { id: "credit", name: "Credit Payments" },
+              { id: "irregular", name: "Irregular Payments" },
             ].map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`${
                   activeTab === tab.id
-                    ? 'border-indigo-500 text-indigo-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? "border-indigo-500 text-indigo-600"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                 } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
               >
                 {tab.name}
@@ -33,7 +35,7 @@ function Payments() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {activeTab === 'record' && (
+        {activeTab === "record" && (
           <>
             <div className="bg-white rounded-lg shadow-md p-6">
               <h3 className="text-lg font-semibold mb-4">Record Payment</h3>
@@ -51,7 +53,7 @@ function Payments() {
                     Amount
                   </label>
                   <div className="relative">
-                    <DollarSign className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
+                    <CircleDollarSign className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
                     <input
                       type="number"
                       className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -81,6 +83,23 @@ function Payments() {
                     <option value="credit">Credit Payment</option>
                     <option value="irregular">Irregular Payment</option>
                   </select>
+                </div>
+                {/* Toggle Switch for Student Presence */}
+                <div className="flex items-center space-x-2">
+                  <Switch
+                    checked={isPresent}
+                    onChange={setIsPresent}
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition ${
+                      isPresent ? "bg-indigo-500" : "bg-gray-300"
+                    }`}
+                  >
+                    <span
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition ${
+                        isPresent ? "translate-x-6" : "translate-x-1"
+                      }`}
+                    />
+                  </Switch>
+                  <span className="text-gray-700">Student is present</span>
                 </div>
                 <button
                   type="submit"
@@ -118,13 +137,17 @@ function Payments() {
                     <tbody className="divide-y divide-gray-200">
                       <tr>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm font-medium text-gray-900">John Doe</div>
+                          <div className="text-sm font-medium text-gray-900">
+                            John Doe
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">₵50.00</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-500">2024-02-20</div>
+                          <div className="text-sm text-gray-500">
+                            2024-02-20
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
@@ -145,7 +168,7 @@ function Payments() {
           </>
         )}
 
-        {activeTab === 'credit' && (
+        {activeTab === "credit" && (
           <div className="lg:col-span-3 bg-white rounded-lg shadow-md p-6">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-lg font-semibold">Credit Payments</h3>
@@ -175,7 +198,9 @@ function Payments() {
                 <tbody className="divide-y divide-gray-200">
                   <tr>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">Jane Smith</div>
+                      <div className="text-sm font-medium text-gray-900">
+                        Jane Smith
+                      </div>
                       <div className="text-sm text-gray-500">Class 2</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -196,9 +221,11 @@ function Payments() {
           </div>
         )}
 
-        {activeTab === 'irregular' && (
+        {activeTab === "irregular" && (
           <div className="lg:col-span-3 bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-lg font-semibold mb-6">Irregular Eater Payments</h3>
+            <h3 className="text-lg font-semibold mb-6">
+              Irregular Eater Payments
+            </h3>
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
@@ -223,7 +250,9 @@ function Payments() {
                 <tbody className="divide-y divide-gray-200">
                   <tr>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">John Doe</div>
+                      <div className="text-sm font-medium text-gray-900">
+                        John Doe
+                      </div>
                       <div className="text-sm text-gray-500">Class 1</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
