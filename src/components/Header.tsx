@@ -10,7 +10,7 @@ function Header() {
   };
 
   return (
-    <header className="bg-indigo-600 text-white py-4 px-6 flex items-center justify-between shadow-md">
+    <header className="bg-indigo-500 text-white py-4 px-6 flex items-center justify-between shadow-md">
       {/* Greeting Message */}
       <div className="flex items-center space-x-2">
         <h1 className="text-xl font-bold">SchoolFeed</h1>
@@ -40,7 +40,7 @@ function Header() {
             onClick={toggleDropdown}
             className="flex items-center space-x-2 cursor-pointer"
           >
-            <User className="w-6 h-6" />
+            <User className="w-8 h-8 bg-gray-700 rounded-full" />
             <ChevronDown className="w-4 h-4" />
           </button>
           {isDropdownOpen && (

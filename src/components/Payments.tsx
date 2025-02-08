@@ -37,7 +37,7 @@ function Payments() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {activeTab === "record" && (
           <>
-            <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="bg-white rounded-lg shadow-md p-4">
               <h3 className="text-lg font-semibold mb-4">Record Payment</h3>
               <form className="space-y-4">
                 <div>
@@ -138,7 +138,7 @@ function Payments() {
                       <tr>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm font-medium text-gray-900">
-                            John Doe
+                            Kofi Owusu
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -196,25 +196,60 @@ function Payments() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
-                  <tr>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">
-                        Jane Smith
-                      </div>
-                      <div className="text-sm text-gray-500">Class 2</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-red-600">₵30.00</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-500">2024-02-15</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <button className="text-indigo-600 hover:text-indigo-900">
-                        Record Payment
-                      </button>
-                    </td>
-                  </tr>
+                  {[
+                    {
+                      id: 1,
+                      name: "Akua Mensah",
+                      class: "Class 2",
+                      amount: "₵30.00",
+                      lastPayment: "2024-02-15",
+                    },
+                    {
+                      id: 2,
+                      name: "Kofi Agyei",
+                      class: "Class 3",
+                      amount: "₵50.00",
+                      lastPayment: "2024-02-10",
+                    },
+                    {
+                      id: 3,
+                      name: "Ama Ofori",
+                      class: "Class 1",
+                      amount: "₵20.00",
+                      lastPayment: "2024-02-20",
+                    },
+                  ].map((student, index) => (
+                    <tr
+                      key={student.id}
+                      className={`hover:bg-gray-100 ${
+                        index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                      }`}
+                    >
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-medium text-gray-900">
+                          {student.name}
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          {student.class}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-red-600">
+                          {student.amount}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-500">
+                          {student.lastPayment}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <button className="text-indigo-600 hover:text-indigo-900">
+                          Record Payment
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -248,31 +283,71 @@ function Payments() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
-                  <tr>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">
-                        John Doe
-                      </div>
-                      <div className="text-sm text-gray-500">Class 1</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">₵50.00</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-500">2024-02-19</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">8 meals</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <button className="text-indigo-600 hover:text-indigo-900 mr-3">
-                        Record Meal
-                      </button>
-                      <button className="text-green-600 hover:text-green-900">
-                        Add Credit
-                      </button>
-                    </td>
-                  </tr>
+                  {[
+                    {
+                      id: 1,
+                      name: "Kofi Owusu",
+                      class: "Class 1",
+                      balance: "₵50.00",
+                      lastMeal: "2024-02-19",
+                      mealCount: "8 meals",
+                    },
+                    {
+                      id: 2,
+                      name: "Ama Mensah",
+                      class: "Class 2",
+                      balance: "₵30.00",
+                      lastMeal: "2024-02-20",
+                      mealCount: "6 meals",
+                    },
+                    {
+                      id: 3,
+                      name: "Yaw Boafo",
+                      class: "Class 3",
+                      balance: "₵40.00",
+                      lastMeal: "2024-02-18",
+                      mealCount: "7 meals",
+                    },
+                  ].map((student, index) => (
+                    <tr
+                      key={student.id}
+                      className={`hover:bg-gray-100 ${
+                        index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                      }`}
+                    >
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-medium text-gray-900">
+                          {student.name}
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          {student.class}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">
+                          {student.balance}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-500">
+                          {student.lastMeal}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">
+                          {student.mealCount}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <button className="text-indigo-600 hover:text-indigo-900 mr-3">
+                          Record Meal
+                        </button>
+                        <button className="text-green-600 hover:text-green-900">
+                          Add Credit
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
