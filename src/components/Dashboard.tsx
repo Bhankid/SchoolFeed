@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { Users, CreditCard, Bell, TrendingUp } from "lucide-react";
 import {
   Chart as ChartJS,
@@ -11,8 +11,8 @@ import {
   Tooltip,
   Legend,
   ArcElement,
-} from 'chart.js';
-import { Line, Bar, Doughnut } from 'react-chartjs-2';
+} from "chart.js";
+import { Line, Bar, Doughnut } from "react-chartjs-2";
 
 // Register ChartJS components
 ChartJS.register(
@@ -27,8 +27,15 @@ ChartJS.register(
   ArcElement
 );
 
-const StatCard = ({ title, value, icon: Icon, color }: any) => (
-  <div className="bg-white rounded-lg shadow-md p-6">
+interface StatCardProps {
+  title: string;
+  value: string;
+  icon: React.FC<React.SVGProps<SVGSVGElement>>;
+  color: string;
+}
+
+const StatCard: React.FC<StatCardProps> = ({ title, value, icon: Icon, color }) => (
+  <div className="bg-white rounded-lg shadow-md p-6 transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg">
     <div className="flex items-center justify-between">
       <div>
         <p className="text-gray-500 text-sm">{title}</p>
@@ -44,13 +51,13 @@ const StatCard = ({ title, value, icon: Icon, color }: any) => (
 function Dashboard() {
   // Sample data for the charts
   const weeklyCollections = {
-    labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
     datasets: [
       {
-        label: 'Daily Collections (₵)',
+        label: "Daily Collections (₵)",
         data: [2450, 2800, 2600, 2900, 2700],
-        borderColor: 'rgb(99, 102, 241)',
-        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+        borderColor: "rgb(99, 102, 241)",
+        backgroundColor: "rgba(99, 102, 241, 0.1)",
         tension: 0.4,
         fill: true,
       },
@@ -58,19 +65,19 @@ function Dashboard() {
   };
 
   const paymentDistribution = {
-    labels: ['Regular', 'Occasional', 'Credit'],
+    labels: ["Regular", "Occasional", "Credit"],
     datasets: [
       {
         data: [65, 20, 15],
         backgroundColor: [
-          'rgba(99, 102, 241, 0.8)',
-          'rgba(34, 197, 94, 0.8)',
-          'rgba(249, 115, 22, 0.8)',
+          "rgba(99, 102, 241, 0.8)",
+          "rgba(34, 197, 94, 0.8)",
+          "rgba(249, 115, 22, 0.8)",
         ],
         borderColor: [
-          'rgb(99, 102, 241)',
-          'rgb(34, 197, 94)',
-          'rgb(249, 115, 22)',
+          "rgb(99, 102, 241)",
+          "rgb(34, 197, 94)",
+          "rgb(249, 115, 22)",
         ],
         borderWidth: 1,
       },
@@ -78,17 +85,17 @@ function Dashboard() {
   };
 
   const monthlyTrend = {
-    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+    labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
     datasets: [
       {
-        label: 'Collections',
+        label: "Collections",
         data: [11200, 12400, 10800, 10880],
-        backgroundColor: 'rgba(99, 102, 241, 0.8)',
+        backgroundColor: "rgba(99, 102, 241, 0.8)",
       },
       {
-        label: 'Pending Payments',
+        label: "Pending Payments",
         data: [1200, 800, 1400, 1000],
-        backgroundColor: 'rgba(249, 115, 22, 0.8)',
+        backgroundColor: "rgba(249, 115, 22, 0.8)",
       },
     ],
   };
@@ -98,7 +105,7 @@ function Dashboard() {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: 'bottom' as const,
+        position: "bottom" as "bottom",
       },
     },
   };
@@ -106,7 +113,7 @@ function Dashboard() {
   return (
     <div>
       <h2 className="text-2xl font-bold mb-6">Dashboard Overview</h2>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <StatCard
           title="Total Students"
@@ -152,7 +159,9 @@ function Dashboard() {
 
       <div className="grid grid-cols-1 gap-6">
         <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-lg font-semibold mb-4">Monthly Collection Trend</h3>
+          <h3 className="text-lg font-semibold mb-4">
+            Monthly Collection Trend
+          </h3>
           <div className="h-[300px]">
             <Bar data={monthlyTrend} options={chartOptions} />
           </div>
