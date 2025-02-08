@@ -4,11 +4,11 @@ import { Check, X } from 'lucide-react';
 function Attendance() {
   const [searchTerm, setSearchTerm] = useState('');
   const [students, setStudents] = useState([
-    { id: 1, name: 'John Doe', class: 'Class 1', status: 'Present' },
-    { id: 2, name: 'Jane Smith', class: 'Class 2', status: 'Absent' },
-    { id: 3, name: 'Alice Johnson', class: 'Class 1', status: 'Present' },
-    { id: 4, name: 'Bob Brown', class: 'Class 3', status: 'Absent' },
-  ]);
+  { id: 1, name: 'Kofi Owusu', class: 'Class 1', status: 'Present' },
+  { id: 2, name: 'Akua Mensah', class: 'Class 2', status: 'Absent' },
+  { id: 3, name: 'Yaa Asantewaa', class: 'Class 1', status: 'Present' },
+  { id: 4, name: 'Kwame Boateng', class: 'Class 3', status: 'Absent' },
+]);
 
   // Function to filter students based on the search term
   const filteredStudents = students.filter((student) => {
