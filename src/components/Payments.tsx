@@ -159,8 +159,18 @@ function Payments({ darkMode }: { darkMode: boolean }) {
             </div>
 
             <div className="lg:col-span-2">
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <h3 className="text-lg font-semibold mb-4">Recent Payments</h3>
+              <div
+                className={`${
+                  darkMode ? "bg-gray-800" : "bg-white"
+                } rounded-lg shadow-md p-4`}
+              >
+                <h3
+                  className={`text-lg font-semibold mb-4 ${
+                    darkMode ? " text-white" : "text-gray-700"
+                  }`}
+                >
+                  Recent Payments
+                </h3>
                 <div className="overflow-x-auto">
                   <table
                     className={`w-full divide-y ${
@@ -172,7 +182,11 @@ function Payments({ darkMode }: { darkMode: boolean }) {
                         darkMode ? "bg-gray-700" : "bg-gray-50"
                       } text-gray-500`}
                     >
-                      <tr className="bg-gray-50">
+                      <tr
+                        className={`${
+                          darkMode ? "text-gray-200" : "text-gray-700"
+                        }`}
+                      >
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Student
                         </th>
@@ -190,28 +204,50 @@ function Payments({ darkMode }: { darkMode: boolean }) {
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-200">
-                      <tr>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm font-medium text-gray-900">
+                    <tbody
+                      className={`${
+                        darkMode ? "divide-gray-700" : "divide-gray-200"
+                      }`}
+                    >
+                      <tr
+                        className={`${
+                          darkMode ? "text-gray-100" : "text-gray-700"
+                        }`}
+                      >
+                        <td className="px-4 py-4 whitespace-nowrap">
+                          <div
+                            className={`text-sm font-medium ${
+                              darkMode ? "text-gray-100" : "text-gray-900"
+                            }`}
+                          >
                             Kofi Owusu
                           </div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">₵50.00</div>
+                        <td className="px-4 py-4 whitespace-nowrap">
+                          <div
+                            className={`text-sm font-medium ${
+                              darkMode ? "text-gray-100" : "text-gray-900"
+                            }`}
+                          >
+                            ₵50.00
+                          </div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-500">
+                        <td className="px-4 py-4 whitespace-nowrap">
+                          <div
+                            className={`text-sm font-medium ${
+                              darkMode ? "text-gray-100" : "text-gray-900"
+                            }`}
+                          >
                             2025-02-20
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                          <span className="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-300 text-yellow-800">
                             Irregular
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                          <span className="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-400 text-green-800">
                             Completed
                           </span>
                         </td>
@@ -225,7 +261,11 @@ function Payments({ darkMode }: { darkMode: boolean }) {
         )}
 
         {activeTab === "credit" && (
-          <div className="lg:col-span-3 bg-white rounded-lg shadow-md p-6">
+          <div
+            className={`lg:col-span-3 rounded-lg shadow-md p-4 ${
+              darkMode ? "bg-gray-800" : "bg-white"
+            }`}
+          >
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-lg font-semibold">Credit Payments</h3>
               <div className="flex items-center text-red-600">
@@ -234,9 +274,21 @@ function Payments({ darkMode }: { darkMode: boolean }) {
               </div>
             </div>
             <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="bg-gray-50">
+              <table
+                className={`w-full divide-y ${
+                  darkMode ? "divide-gray-700" : "divide-gray-200"
+                }`}
+              >
+                <thead
+                  className={`${
+                    darkMode ? "bg-gray-700" : "bg-gray-50"
+                  } text-gray-500`}
+                >
+                  <tr
+                    className={`${
+                      darkMode ? "bg-gray-900 text-gray-100" : "text-gray-800"
+                    }`}
+                  >
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Student
                     </th>
@@ -251,7 +303,11 @@ function Payments({ darkMode }: { darkMode: boolean }) {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200">
+                <tbody
+                  className={`${
+                    darkMode ? "divide-gray-700" : "divide-gray-200"
+                  }`}
+                >
                   {[
                     {
                       id: 1,
@@ -277,15 +333,31 @@ function Payments({ darkMode }: { darkMode: boolean }) {
                   ].map((student, index) => (
                     <tr
                       key={student.id}
-                      className={`hover:bg-gray-100 ${
-                        index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                      className={`hover:${
+                        darkMode ? "bg-gray-700" : "bg-gray-100"
+                      } ${
+                        index % 2 === 0
+                          ? darkMode
+                            ? "bg-gray-800"
+                            : "bg-white"
+                          : darkMode
+                          ? "bg-gray-900"
+                          : "bg-gray-50"
                       }`}
                     >
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">
+                        <div
+                          className={`text-sm font-medium ${
+                            darkMode ? "text-gray-100" : "text-gray-900"
+                          }`}
+                        >
                           {student.name}
                         </div>
-                        <div className="text-sm text-gray-500">
+                        <div
+                          className={`text-sm ${
+                            darkMode ? "text-gray-300" : "text-gray-500"
+                          }`}
+                        >
                           {student.class}
                         </div>
                       </td>
@@ -295,12 +367,20 @@ function Payments({ darkMode }: { darkMode: boolean }) {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-500">
+                        <div
+                          className={`text-sm ${
+                            darkMode ? "text-gray-300" : "text-gray-500"
+                          }`}
+                        >
                           {student.lastPayment}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <button className="text-indigo-600 hover:text-indigo-900">
+                        <button
+                          className={`text-indigo-600 hover:text-indigo-700 ${
+                            darkMode ? "text-gray-200" : "text-gray-500"
+                          }`}
+                        >
                           Record Payment
                         </button>
                       </td>
@@ -313,14 +393,26 @@ function Payments({ darkMode }: { darkMode: boolean }) {
         )}
 
         {activeTab === "irregular" && (
-          <div className="lg:col-span-3 bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-lg font-semibold mb-6">
+          <div className={`lg:col-span-3 rounded-lg shadow-md p-4 ${darkMode ? "bg-gray-800" : "bg-white"}`}>
+            <h3
+              className={`text-lg font-semibold mb-4 text-gray-900 ${
+                darkMode ? "text-white" : "text-gray-900"
+              }`}
+            >
               Irregular Eater Payments
             </h3>
             <div className="overflow-x-auto">
-              <table className="w-full">
+              <table
+                className={`w-full divide-y ${
+                  darkMode ? "divide-gray-700" : "divide-gray-200"
+                }`}
+              >
                 <thead>
-                  <tr className="bg-gray-50">
+                  <tr
+                    className={`${
+                      darkMode ? "bg-gray-800" : "bg-gray-50"
+                    } text-gray-500`}
+                  >
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Student
                     </th>
@@ -338,7 +430,11 @@ function Payments({ darkMode }: { darkMode: boolean }) {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200">
+                <tbody
+                  className={`${
+                    darkMode ? "divide-gray-700" : "divide-gray-200"
+                  }`}
+                >
                   {[
                     {
                       id: 1,
@@ -367,38 +463,46 @@ function Payments({ darkMode }: { darkMode: boolean }) {
                   ].map((student, index) => (
                     <tr
                       key={student.id}
-                      className={`hover:bg-gray-100 ${
-                        index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                      className={`hover:${
+                        darkMode ? "bg-gray-700" : "bg-gray-100"
+                      } ${
+                        index % 2 === 0
+                          ? darkMode
+                            ? "bg-gray-800"
+                            : "bg-white"
+                          : darkMode
+                          ? "bg-gray-900"
+                          : "bg-gray-50"
                       }`}
                     >
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">
+                      <td className="px-4 py-4 whitespace-nowrap">
+                        <div className={`text-sm font-medium ${darkMode ? "text-gray-100" : "text-gray-900"}`}>
                           {student.name}
                         </div>
-                        <div className="text-sm text-gray-500">
+                        <div className={`text-sm ${darkMode ? "text-gray-300" : "text-gray-500"}`}>
                           {student.class}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">
+                      <td className="px-4 py-4 whitespace-nowrap">
+                        <div className={`text-sm text-red-600 ${darkMode ? "text-gray-300" : "text-gray-500"}`}>
                           {student.balance}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-500">
+                      <td className="px-4 py-4 whitespace-nowrap">
+                        <div className={`text-sm ${darkMode ? "text-gray-100" : "text-gray-600"}`}>
                           {student.lastMeal}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">
+                      <td className="px-4 py-4 whitespace-nowrap">
+                        <div className={`text-sm text-center ${darkMode ? "text-gray-100" : "text-gray-600"}`}>
                           {student.mealCount}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <button className="text-indigo-600 hover:text-indigo-900 mr-3">
+                      <td className="px-4 py-4 whitespace-nowrap">
+                        <button className="text-indigo-600 hover:text-indigo-700 mr-3">
                           Record Meal
                         </button>
-                        <button className="text-green-600 hover:text-green-900">
+                        <button className="text-green-600 hover:text-green-700">
                           Add Credit
                         </button>
                       </td>
