@@ -20,7 +20,7 @@ import Payments from "./components/Payments";
 import Attendance from "./components/Attendance";
 import Alerts from "./components/Alerts";
 import Footer from "./components/Footer";
-import LoadingScreen from "./components/LoadingScreen"; // Import the LoadingScreen component
+import LoadingScreen from "./components/LoadingScreen"; 
 
 function App() {
   const [activeTab, setActiveTab] = useState(() => {
@@ -33,7 +33,7 @@ function App() {
     const savedTheme = localStorage.getItem("theme");
     return savedTheme === "dark";
   });
-  const [isLoading, setIsLoading] = useState(true); // State for loading screen
+  const [isLoading, setIsLoading] = useState(true); 
 
   useEffect(() => {
     localStorage.setItem("activeTab", activeTab);
@@ -64,9 +64,9 @@ function App() {
       case "payments":
         return <Payments />;
       case "attendance":
-        return <Attendance />;
+        return <Attendance darkMode={darkMode} />;
       case "alerts":
-        return <Alerts />;
+        return <Alerts darkMode={darkMode} />;
       default:
         return <Dashboard darkMode={darkMode} />;
     }

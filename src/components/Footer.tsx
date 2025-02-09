@@ -9,7 +9,7 @@ function Footer() {
         <p className="text-sm mb-2 md:mb-0">
           Developed by{" "}
           <a
-            href="https://www.linkedin.com/in/devfred"
+            href="https://alfred-portfolio-site.onrender.com/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-800 hover:text-gray-900"
