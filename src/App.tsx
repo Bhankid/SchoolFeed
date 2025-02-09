@@ -9,7 +9,6 @@ import {
   Menu,
   X,
   Search,
-  User,
   ChevronDown,
 } from "lucide-react";
 import { Toaster } from "react-hot-toast";
@@ -24,13 +23,20 @@ function App() {
   const [activeTab, setActiveTab] = useState(() => {
     return localStorage.getItem("activeTab") || "dashboard";
   });
-
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isLoading, setIsLoading] = useState(true); // State for loading screen
 
   useEffect(() => {
     localStorage.setItem("activeTab", activeTab);
+
+    // Simulate loading process
+    const timer = setTimeout(() => {
+      setIsLoading(false); // Hide loading screen after 2.5 seconds
+    }, 5000);
+
+    return () => clearTimeout(timer); // Cleanup timer on unmount
   }, [activeTab]);
 
   const tabs = [
@@ -58,6 +64,23 @@ function App() {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-black z-50">
+        <div className="text-center">
+          <div className="relative w-48 h-4 bg-gray-700 rounded-full overflow-hidden mb-4">
+            <div
+              className="absolute top-0 left-0 h-full bg-indigo-600 transition-all duration-300"
+              style={{ width: "100%" }}
+            ></div>
+          </div>
+          <p className="text-white text-lg font-semibold">Loading...</p>
+          <p className="text-gray-400 text-sm mt-2">Please wait</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col h-screen bg-gray-100">
       {/* Header */}
@@ -77,7 +100,6 @@ function App() {
           <h1 className="text-xl font-bold">SchoolFeed</h1>
           <span className="text-sm hidden sm:inline">Hello, Admin!</span>
         </div>
-
         {/* Middle Section: Search Bar (Hidden on Mobile) */}
         <div className="relative w-full max-w-md hidden sm:block">
           <input
@@ -89,7 +111,6 @@ function App() {
           />
           <Search className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
         </div>
-
         {/* Right Section: Notifications & Profile */}
         <div className="flex items-center space-x-4">
           <Bell className="w-6 h-6 cursor-pointer" />
@@ -98,7 +119,13 @@ function App() {
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className="flex items-center space-x-2 cursor-pointer"
             >
-              <User className="w-8 h-8 bg-gray-700 rounded-full" />
+              {/* Profile Image */}
+              <img
+                src="/self.jpg"
+                alt="Profile Photo"
+                className="w-8 h-8 rounded-full object-cover border border-white"
+                onError={(e) => (e.currentTarget.src = "/default-avatar.jpg")}
+              />
               <ChevronDown className="w-4 h-4" />
             </button>
             {isDropdownOpen && (
@@ -130,7 +157,6 @@ function App() {
           } lg:hidden`}
           onClick={() => setIsSidebarOpen(false)}
         ></div>
-
         <div
           className={`fixed lg:relative z-50 lg:z-auto top-0 left-0 h-full w-64 bg-white shadow-lg transition-transform transform ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
@@ -155,7 +181,6 @@ function App() {
               <X className="w-6 h-6" />
             </button>
           </div>
-
           {/* Navigation */}
           <nav className="mt-6">
             {tabs.map((tab) => (

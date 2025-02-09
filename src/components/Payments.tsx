@@ -146,7 +146,7 @@ function Payments() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-500">
-                            2024-02-20
+                            2025-02-20
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -202,21 +202,21 @@ function Payments() {
                       name: "Akua Mensah",
                       class: "Class 2",
                       amount: "₵30.00",
-                      lastPayment: "2024-02-15",
+                      lastPayment: "2025-02-15",
                     },
                     {
                       id: 2,
                       name: "Kofi Agyei",
                       class: "Class 3",
                       amount: "₵50.00",
-                      lastPayment: "2024-02-10",
+                      lastPayment: "2025-02-10",
                     },
                     {
                       id: 3,
                       name: "Ama Ofori",
                       class: "Class 1",
                       amount: "₵20.00",
-                      lastPayment: "2024-02-20",
+                      lastPayment: "2025-02-20",
                     },
                   ].map((student, index) => (
                     <tr
@@ -289,7 +289,7 @@ function Payments() {
                       name: "Kofi Owusu",
                       class: "Class 1",
                       balance: "₵50.00",
-                      lastMeal: "2024-02-19",
+                      lastMeal: "2025-02-19",
                       mealCount: "8 meals",
                     },
                     {
@@ -297,7 +297,7 @@ function Payments() {
                       name: "Ama Mensah",
                       class: "Class 2",
                       balance: "₵30.00",
-                      lastMeal: "2024-02-20",
+                      lastMeal: "2025-02-20",
                       mealCount: "6 meals",
                     },
                     {
@@ -305,7 +305,7 @@ function Payments() {
                       name: "Yaw Boafo",
                       class: "Class 3",
                       balance: "₵40.00",
-                      lastMeal: "2024-02-18",
+                      lastMeal: "2025-02-18",
                       mealCount: "7 meals",
                     },
                   ].map((student, index) => (
