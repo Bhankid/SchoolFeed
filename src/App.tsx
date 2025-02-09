@@ -62,7 +62,7 @@ function App() {
       case "students":
         return <Students />;
       case "payments":
-        return <Payments />;
+        return <Payments darkMode={darkMode} />;
       case "attendance":
         return <Attendance darkMode={darkMode} />;
       case "alerts":

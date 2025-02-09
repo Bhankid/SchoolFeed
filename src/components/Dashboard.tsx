@@ -49,7 +49,7 @@ const StatCard: React.FC<StatCardProps> = ({
 
   return (
     <div
-      className={`rounded-lg shadow-md p-6 transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg ${
+      className={`rounded-lg shadow-md p-4 transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg ${
         darkMode ? "bg-gray-800" : "bg-white"
       }`}
     >
@@ -145,25 +145,25 @@ function Dashboard({ darkMode }: { darkMode: boolean }) {
       legend: {
         position: "bottom" as "bottom",
         labels: {
-          color: darkMode ? "#ffffff" : "#000000", // Adjust legend text color
+          color: darkMode ? "#ffffff" : "#000000",
         },
       },
     },
     scales: {
       x: {
         ticks: {
-          color: darkMode ? "#ffffff" : "#000000", // Adjust x-axis text color
+          color: darkMode ? "#ffffff" : "#000000", 
         },
         grid: {
-          color: darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)", // Adjust grid lines
+          color: darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)", 
         },
       },
       y: {
         ticks: {
-          color: darkMode ? "#ffffff" : "#000000", // Adjust y-axis text color
+          color: darkMode ? "#ffffff" : "#000000", 
         },
         grid: {
-          color: darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)", // Adjust grid lines
+          color: darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)", 
         },
       },
     },
