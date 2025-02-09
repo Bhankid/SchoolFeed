@@ -173,7 +173,7 @@ function Dashboard({ darkMode }: { darkMode: boolean }) {
     <div
       className={`${
         darkMode ? "bg-gray-950 text-white" : "bg-gray-100 text-gray-900"
-      } min-h-screen p-8 transition-colors duration-300`}
+      } min-h-screen p-2 transition-colors duration-300`}
     >
       <h2 className="text-2xl font-bold mb-6">Dashboard Overview</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
