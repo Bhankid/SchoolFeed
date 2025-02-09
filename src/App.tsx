@@ -33,7 +33,7 @@ function App() {
 
     // Simulate loading process
     const timer = setTimeout(() => {
-      setIsLoading(false); // Hide loading screen after 2.5 seconds
+      setIsLoading(false); 
     }, 5000);
 
     return () => clearTimeout(timer); // Cleanup timer on unmount

@@ -13,6 +13,7 @@ import {
   ArcElement,
 } from "chart.js";
 import { Line, Bar, Doughnut } from "react-chartjs-2";
+import CountUp from "react-countup"; 
 
 // Register ChartJS components
 ChartJS.register(
@@ -34,19 +35,40 @@ interface StatCardProps {
   color: string;
 }
 
-const StatCard: React.FC<StatCardProps> = ({ title, value, icon: Icon, color }) => (
-  <div className="bg-white rounded-lg shadow-md p-6 transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg">
-    <div className="flex items-center justify-between">
-      <div>
-        <p className="text-gray-500 text-sm">{title}</p>
-        <p className="text-2xl font-bold mt-1">{value}</p>
-      </div>
-      <div className={`p-3 rounded-full ${color}`}>
-        <Icon className="w-6 h-6 text-white" />
+const StatCard: React.FC<StatCardProps> = ({
+  title,
+  value,
+  icon: Icon,
+  color,
+}) => {
+  // Extract numeric value and symbol (e.g., "₵" or "%") from the value string
+  const numericValue = parseFloat(value.replace(/[^0-9.-]+/g, ""));
+  const symbol = value.replace(/[0-9.-]+/g, "");
+
+  return (
+    <div className="bg-white rounded-lg shadow-md p-6 transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg">
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-gray-500 text-sm">{title}</p>
+          <p className="text-2xl font-bold mt-1 flex items-center">
+            {/* Use CountUp for the counting effect */}
+            <span className="ml-1">{symbol}</span>
+            <CountUp
+              start={0}
+              end={numericValue}
+              duration={2.5}
+              separator=","
+              decimals={numericValue % 1 !== 0 ? 2 : 0}
+            />
+          </p>
+        </div>
+        <div className={`p-3 rounded-full ${color}`}>
+          <Icon className="w-6 h-6 text-white" />
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 function Dashboard() {
   // Sample data for the charts
@@ -113,7 +135,6 @@ function Dashboard() {
   return (
     <div>
       <h2 className="text-2xl font-bold mb-6">Dashboard Overview</h2>
-
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <StatCard
           title="Total Students"
@@ -140,7 +161,6 @@ function Dashboard() {
           color="bg-purple-500"
         />
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-white rounded-lg shadow-md p-6">
           <h3 className="text-lg font-semibold mb-4">Weekly Collections</h3>
@@ -148,7 +168,6 @@ function Dashboard() {
             <Line data={weeklyCollections} options={chartOptions} />
           </div>
         </div>
-
         <div className="bg-white rounded-lg shadow-md p-6">
           <h3 className="text-lg font-semibold mb-4">Payment Distribution</h3>
           <div className="h-[300px] flex items-center justify-center">
@@ -156,7 +175,6 @@ function Dashboard() {
           </div>
         </div>
       </div>
-
       <div className="grid grid-cols-1 gap-6">
         <div className="bg-white rounded-lg shadow-md p-6">
           <h3 className="text-lg font-semibold mb-4">
