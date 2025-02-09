@@ -284,7 +284,7 @@ function App() {
         </div>
       </div>
       {/* Footer */}
-      <Footer />
+      <Footer darkMode={darkMode} />
       {/* Toaster for notifications */}
       <Toaster position="top-right" />
     </div>
