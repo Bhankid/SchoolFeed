@@ -58,7 +58,7 @@ function App() {
   const renderContent = () => {
     switch (activeTab) {
       case "dashboard":
-        return <Dashboard />;
+        return <Dashboard darkMode={darkMode} />;
       case "students":
         return <Students />;
       case "payments":
@@ -68,7 +68,7 @@ function App() {
       case "alerts":
         return <Alerts />;
       default:
-        return <Dashboard />;
+        return <Dashboard darkMode={darkMode} />;
     }
   };
 

@@ -13,7 +13,7 @@ import {
   ArcElement,
 } from "chart.js";
 import { Line, Bar, Doughnut } from "react-chartjs-2";
-import CountUp from "react-countup"; 
+import CountUp from "react-countup";
 
 // Register ChartJS components
 ChartJS.register(
@@ -33,6 +33,7 @@ interface StatCardProps {
   value: string;
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
   color: string;
+  darkMode?: boolean; // Add darkMode prop
 }
 
 const StatCard: React.FC<StatCardProps> = ({
@@ -40,17 +41,32 @@ const StatCard: React.FC<StatCardProps> = ({
   value,
   icon: Icon,
   color,
+  darkMode = false,
 }) => {
   // Extract numeric value and symbol (e.g., "₵" or "%") from the value string
   const numericValue = parseFloat(value.replace(/[^0-9.-]+/g, ""));
   const symbol = value.replace(/[0-9.-]+/g, "");
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg">
+    <div
+      className={`rounded-lg shadow-md p-6 transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg ${
+        darkMode ? "bg-gray-800" : "bg-white"
+      }`}
+    >
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-gray-500 text-sm">{title}</p>
-          <p className="text-2xl font-bold mt-1 flex items-center">
+          <p
+            className={`text-sm ${
+              darkMode ? "text-gray-400" : "text-gray-500"
+            }`}
+          >
+            {title}
+          </p>
+          <p
+            className={`text-2xl font-bold mt-1 flex items-center ${
+              darkMode ? "text-white" : "text-gray-900"
+            }`}
+          >
             {/* Use CountUp for the counting effect */}
             <span className="ml-1">{symbol}</span>
             <CountUp
@@ -70,7 +86,7 @@ const StatCard: React.FC<StatCardProps> = ({
   );
 };
 
-function Dashboard() {
+function Dashboard({ darkMode }: { darkMode: boolean }) {
   // Sample data for the charts
   const weeklyCollections = {
     labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
@@ -128,12 +144,37 @@ function Dashboard() {
     plugins: {
       legend: {
         position: "bottom" as "bottom",
+        labels: {
+          color: darkMode ? "#ffffff" : "#000000", // Adjust legend text color
+        },
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: darkMode ? "#ffffff" : "#000000", // Adjust x-axis text color
+        },
+        grid: {
+          color: darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)", // Adjust grid lines
+        },
+      },
+      y: {
+        ticks: {
+          color: darkMode ? "#ffffff" : "#000000", // Adjust y-axis text color
+        },
+        grid: {
+          color: darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)", // Adjust grid lines
+        },
       },
     },
   };
 
   return (
-    <div>
+    <div
+      className={`${
+        darkMode ? "bg-gray-950 text-white" : "bg-gray-100 text-gray-900"
+      } min-h-screen p-8 transition-colors duration-300`}
+    >
       <h2 className="text-2xl font-bold mb-6">Dashboard Overview</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <StatCard
@@ -141,43 +182,75 @@ function Dashboard() {
           value="324"
           icon={Users}
           color="bg-blue-500"
+          darkMode={darkMode}
         />
         <StatCard
           title="Today's Collections"
           value="₵2,450"
           icon={CreditCard}
           color="bg-green-500"
+          darkMode={darkMode}
         />
         <StatCard
           title="Pending Payments"
           value="28"
           icon={Bell}
           color="bg-orange-500"
+          darkMode={darkMode}
         />
         <StatCard
           title="Monthly Revenue"
           value="₵45,280"
           icon={TrendingUp}
           color="bg-purple-500"
+          darkMode={darkMode}
         />
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-lg font-semibold mb-4">Weekly Collections</h3>
+        <div
+          className={`rounded-lg shadow-md p-6 ${
+            darkMode ? "bg-gray-800" : "bg-white"
+          }`}
+        >
+          <h3
+            className={`text-lg font-semibold mb-4 ${
+              darkMode ? "text-white" : "text-gray-900"
+            }`}
+          >
+            Weekly Collections
+          </h3>
           <div className="h-[300px]">
             <Line data={weeklyCollections} options={chartOptions} />
           </div>
         </div>
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-lg font-semibold mb-4">Payment Distribution</h3>
+        <div
+          className={`rounded-lg shadow-md p-6 ${
+            darkMode ? "bg-gray-800" : "bg-white"
+          }`}
+        >
+          <h3
+            className={`text-lg font-semibold mb-4 ${
+              darkMode ? "text-white" : "text-gray-900"
+            }`}
+          >
+            Payment Distribution
+          </h3>
           <div className="h-[300px] flex items-center justify-center">
             <Doughnut data={paymentDistribution} options={chartOptions} />
           </div>
         </div>
       </div>
       <div className="grid grid-cols-1 gap-6">
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-lg font-semibold mb-4">
+        <div
+          className={`rounded-lg shadow-md p-6 ${
+            darkMode ? "bg-gray-800" : "bg-white"
+          }`}
+        >
+          <h3
+            className={`text-lg font-semibold mb-4 ${
+              darkMode ? "text-white" : "text-gray-900"
+            }`}
+          >
             Monthly Collection Trend
           </h3>
           <div className="h-[300px]">
