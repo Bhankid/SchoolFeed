@@ -89,7 +89,7 @@ function Students() {
       {/* Modal for Adding a Student */}
       {showAddModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+          <div className="bg-white rounded-lg shadow-lg p-4 w-full max-w-md">
             <h3 className="text-xl font-bold mb-4">Add New Student</h3>
             <form className="space-y-4">
               {/* Name Field */}

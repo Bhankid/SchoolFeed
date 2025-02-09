@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { Check, X } from 'lucide-react';
+import React, { useState } from "react";
+import { Check, X } from "lucide-react";
 
 function Attendance() {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [students, setStudents] = useState([
-  { id: 1, name: 'Kofi Owusu', class: 'Class 1', status: 'Present' },
-  { id: 2, name: 'Akua Mensah', class: 'Class 2', status: 'Absent' },
-  { id: 3, name: 'Yaa Asantewaa', class: 'Class 1', status: 'Present' },
-  { id: 4, name: 'Kwame Boateng', class: 'Class 3', status: 'Absent' },
-]);
+    { id: 1, name: "Kofi Owusu", class: "Class 1", status: "Present" },
+    { id: 2, name: "Akua Mensah", class: "Class 2", status: "Absent" },
+    { id: 3, name: "Yaa Asantewaa", class: "Class 1", status: "Present" },
+    { id: 4, name: "Kwame Boateng", class: "Class 3", status: "Absent" },
+  ]);
 
   // Function to filter students based on the search term
   const filteredStudents = students.filter((student) => {
@@ -20,13 +20,15 @@ function Attendance() {
   });
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-6">Daily Attendance</h2>
+    <div className="max-w-6xl mx-auto px-2 sm:px-4 lg:px-6 py-6">
+      <h2 className="text-2xl font-bold mb-6 text-center sm:text-left">
+        Daily Attendance
+      </h2>
       <div className="bg-white rounded-lg shadow-md p-6">
         {/* Search Bar, Date Picker, Class Selection, and Mark All Present Controls */}
-        <div className="flex items-center space-x-4 mb-6">
+        <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-6">
           {/* Search Bar */}
-          <div className="relative w-full max-w-xs">
+          <div className="relative w-full sm:max-w-xs">
             <input
               type="text"
               placeholder="Search by Name, Class, or Status"
@@ -35,58 +37,72 @@ function Attendance() {
               className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
-
           {/* Date Picker */}
-          <div className="relative">
+          <div className="relative w-full sm:w-auto">
+            <label htmlFor="date" className="sr-only">
+              Select Date
+            </label>
             <input
               type="date"
-              className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              id="date"
+              className="border rounded-lg px-4 py-2 w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
-
           {/* Class Selection */}
-          <select className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <select className="border rounded-lg px-4 py-2 w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-indigo-500">
             <option value="">All Classes</option>
             <option value="1">Class 1</option>
             <option value="2">Class 2</option>
             <option value="3">Class 3</option>
           </select>
-
           {/* Mark All Present Button */}
-          <button className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+          <button className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors whitespace-nowrap w-full sm:w-auto">
             Mark All Present
           </button>
         </div>
-
         {/* Attendance Table */}
         <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="bg-gray-50">
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
                   Student
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
                   Class
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
                   Status
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="bg-white divide-y divide-gray-200">
               {filteredStudents.map((student, index) => (
                 <tr
                   key={student.id}
                   className={`hover:bg-gray-100 ${
-                    index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+                    index % 2 === 0 ? "bg-white" : "bg-gray-50"
                   }`}
                 >
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">{student.name}</div>
+                    <div className="text-sm font-medium text-gray-900">
+                      {student.name}
+                    </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-500">{student.class}</div>
@@ -94,9 +110,9 @@ function Attendance() {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span
                       className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                        student.status === 'Present'
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-red-100 text-red-800'
+                        student.status === "Present"
+                          ? "bg-green-100 text-green-800"
+                          : "bg-red-100 text-red-800"
                       }`}
                     >
                       {student.status}
