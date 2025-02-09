@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Search, Bell, User, ChevronDown, Menu, X } from "lucide-react";
+import { Search, Bell, ChevronDown, Menu, X } from "lucide-react";
 
 interface HeaderProps {
   toggleSidebar: () => void;
@@ -58,7 +58,13 @@ function Header({ toggleSidebar, isSidebarOpen }: HeaderProps) {
             onClick={toggleDropdown}
             className="flex items-center space-x-2 cursor-pointer"
           >
-            <User className="w-8 h-8 bg-gray-700 rounded-full" />
+            {/*  Image  */}
+            <img
+              src="/self.jpg" 
+              alt="Profile Photo"
+              className="w-8 h-8 rounded-full object-cover border border-white"
+              onError={(e) => (e.currentTarget.src = "/default-avatar.jpg")} 
+            />
             <ChevronDown className="w-4 h-4" />
           </button>
           {isDropdownOpen && (
