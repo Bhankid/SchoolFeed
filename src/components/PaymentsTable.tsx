@@ -6,6 +6,30 @@ interface PaymentsTableProps {
 }
 
 const PaymentTable: React.FC<PaymentsTableProps> = ({ darkMode }) => {
+  // Sample payment data
+  const payments = [
+    {
+      id: 1,
+      name: "Kofi Owusu",
+      amount: "₵50.00",
+      balance: "₵100.00",
+      date: "2025-02-20",
+      type: "Irregular",
+      status: "Completed",
+      method: "cash",
+    },
+    {
+      id: 2,
+      name: "Ama Owusu",
+      amount: "₵20.00",
+      balance: "₵80.00",
+      date: "2025-02-21",
+      type: "Regular",
+      status: "Completed",
+      method: "momo",
+    },
+  ];
+
   return (
     <div className="col-span-1">
       <div
@@ -14,13 +38,22 @@ const PaymentTable: React.FC<PaymentsTableProps> = ({ darkMode }) => {
         } rounded-lg shadow-md p-4`}
       >
         {/* Title */}
-        <h3
-          className={`text-lg font-semibold mb-4 ${
-            darkMode ? "text-white" : "text-gray-700"
-          }`}
-        >
-          Recent Payments
-        </h3>
+        <div className="flex justify-between items-center mb-4">
+          <h3
+            className={`text-lg font-semibold ${
+              darkMode ? "text-white" : "text-gray-700"
+            }`}
+          >
+            Recent Payments
+          </h3>
+          <span
+            className={`text-sm font-medium ${
+              darkMode ? "text-gray-400" : "text-gray-500"
+            }`}
+          >
+           Total Eating: {payments.length} 
+          </span>
+        </div>
 
         {/* Table */}
         <div className="overflow-x-auto">
@@ -60,76 +93,65 @@ const PaymentTable: React.FC<PaymentsTableProps> = ({ darkMode }) => {
             </thead>
 
             {/* Table Body */}
-            <tbody className={darkMode ? "divide-gray-700" : "divide-gray-200"}>
-              {/* Row 1 */}
-              <tr className={`${darkMode ? "text-gray-100" : "text-gray-700"}`}>
-                <td className="px-6 py-4 whitespace-nowrap">Kofi Owusu</td>
-                <td className="px-6 py-4 whitespace-nowrap">₵50.00</td>
-                <td className="px-6 py-4 whitespace-nowrap flex items-center">
-                  ₵100.00
-                  <span className="ml-2">
-                    <DollarSign className="w-4 h-4 text-green-500" />
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">2025-02-20</td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span
-                    className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                      darkMode
-                        ? "bg-yellow-600 text-yellow-100"
-                        : "bg-yellow-300 text-yellow-800"
-                    }`}
-                  >
-                    Irregular
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span
-                    className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                      darkMode
-                        ? "bg-green-600 text-green-100"
-                        : "bg-green-400 text-green-800"
-                    }`}
-                  >
-                    Completed
-                  </span>
-                </td>
-              </tr>
-
-              {/* Row 2 */}
-              <tr className={`${darkMode ? "text-gray-100" : "text-gray-700"}`}>
-                <td className="px-6 py-4 whitespace-nowrap">Ama Owusu</td>
-                <td className="px-6 py-4 whitespace-nowrap">₵20.00</td>
-                <td className="px-6 py-4 whitespace-nowrap flex items-center">
-                  ₵80.00
-                  <span className="ml-2">
-                    <Smartphone className="w-4 h-4 text-red-500" />
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">2025-02-21</td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span
-                    className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                      darkMode
-                        ? "bg-yellow-600 text-yellow-100"
-                        : "bg-yellow-300 text-yellow-800"
-                    }`}
-                  >
-                    Regular
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span
-                    className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                      darkMode
-                        ? "bg-green-600 text-green-100"
-                        : "bg-green-400 text-green-800"
-                    }`}
-                  >
-                    Completed
-                  </span>
-                </td>
-              </tr>
+            <tbody
+              className={`${darkMode ? "divide-gray-700" : "divide-gray-200"}`}
+            >
+              {payments.map((payment, index) => (
+                <tr
+                  key={payment.id}
+                  className={`${darkMode ? "text-gray-100" : "text-gray-700"} ${
+                    index % 2 === 1
+                      ? darkMode
+                        ? "bg-gray-900"
+                        : "bg-gray-100"
+                      : ""
+                  } hover:${
+                    darkMode ? "bg-gray-700" : "bg-gray-200"
+                  } transition-colors`}
+                >
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {payment.name}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {payment.amount}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap flex items-center">
+                    {payment.balance}
+                    <span className="ml-2">
+                      {payment.method === "momo" ? (
+                        <Smartphone className="w-4 h-4 text-red-500" />
+                      ) : (
+                        <DollarSign className="w-4 h-4 text-green-500" />
+                      )}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {payment.date}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span
+                      className={`px-2 py-1 text-xs font-semibold rounded-full ${
+                        darkMode
+                          ? "bg-yellow-600 text-yellow-100"
+                          : "bg-yellow-300 text-yellow-800"
+                      }`}
+                    >
+                      {payment.type}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span
+                      className={`px-2 py-1 text-xs font-semibold rounded-full ${
+                        darkMode
+                          ? "bg-green-600 text-green-100"
+                          : "bg-green-400 text-green-800"
+                      }`}
+                    >
+                      {payment.status}
+                    </span>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
