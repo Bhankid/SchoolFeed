@@ -12,11 +12,23 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   // Functionality for the close button
-  const handleResetForm = () => {
-    setIsPresent(false);
-    setSelectedClass("");
-    setSearchQuery("");
+  // const handleResetForm = () => {
+  //   setIsPresent(false);
+  //   setSelectedClass("");
+  //   setSearchQuery("");
+  // };
+
+  // Get the current date in YYYY-MM-DD format
+  const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0"); 
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
   };
+
+  // State to hold the current date
+  const [currentDate, setCurrentDate] = useState(getCurrentDate);
 
   return (
     <div
@@ -30,14 +42,13 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
           Record Payment
         </h3>
         {/* Close Button */}
-        <button
+        {/* <button
           onClick={handleResetForm}
           className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
         >
-          {/* <X className="w-5 h-5 text-gray-500 dark:text-gray-400" /> */}
-        </button>
+          <X className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+        </button> */}
       </div>
-
       <form className="space-y-4 mt-4">
         {/* Select by Class & Search Bar (Side by Side on Desktop) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -61,7 +72,6 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
               <option value="class3">Class 3</option>
             </select>
           </div>
-
           {/* Search Bar */}
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -80,7 +90,6 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
             />
           </div>
         </div>
-
         {/* Student Selection */}
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -99,7 +108,6 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
             <option value="student3">Yaa Asantewaa</option>
           </select>
         </div>
-
         {/* Toggle Switch for Student Presence */}
         <div className="flex items-center space-x-2">
           <Switch
@@ -119,7 +127,6 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
             Student is present
           </span>
         </div>
-
         {/* Conditional Form Rendering */}
         {isPresent && (
           <>
@@ -141,7 +148,6 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
                 />
               </div>
             </div>
-
             {/* Date Input */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -151,6 +157,8 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
                 <Calendar className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
                 <input
                   type="date"
+                  value={currentDate}
+                  readOnly 
                   className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
                     darkMode
                       ? "focus:ring-indigo-500 bg-gray-700 text-gray-300"
@@ -159,7 +167,6 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
                 />
               </div>
             </div>
-
             {/* Payment Type Selection */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -178,7 +185,6 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
                 <option value="irregular">Irregular Payment</option>
               </select>
             </div>
-
             {/* Payment Mode Radio Buttons */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -205,7 +211,6 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
                 </label>
               </div>
             </div>
-
             {/* Submit Button */}
             <button
               type="submit"
