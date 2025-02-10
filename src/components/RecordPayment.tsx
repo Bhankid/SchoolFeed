@@ -114,7 +114,6 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
           <span className={`${darkMode ? "text-gray-300" : "text-gray-700"}`}>
             Student is present
           </span>
-
           {/* Student Paying Switch */}
           <Switch
             checked={isPaying}
@@ -133,6 +132,17 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
             Student is paying
           </span>
         </div>
+        {/* Submit Button for Absent or Present but Not Paying */}
+        {(isPresent === false || (isPresent && !isPaying)) && (
+          <button
+            type="submit"
+            className={`w-full text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors ${
+              darkMode ? "bg-red-500" : "bg-red-600"
+            }`}
+          >
+            Submit Without Payment
+          </button>
+        )}
         {/* Conditional Form Rendering */}
         {isPresent && isPaying && (
           <>
@@ -217,7 +227,7 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
                 </label>
               </div>
             </div>
-            {/* Submit Button */}
+            {/* Submit Button for Payment */}
             <button
               type="submit"
               className={`w-full text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors ${
