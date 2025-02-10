@@ -75,7 +75,7 @@ const Payments: React.FC<PaymentsProps> = ({ darkMode }) => {
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
           <div
-            className={`relative w-full max-w-md p-2 rounded-lg shadow-sm transition-all ${
+            className={`relative w-full max-w-md p-4 rounded-lg shadow-sm transition-all ${
               darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
             }`}
           >
