@@ -10,6 +10,15 @@ interface PaymentsProps {
 const Payments: React.FC<PaymentsProps> = ({ darkMode }) => {
   const [activeTab, setActiveTab] = useState("record");
   const [isModalOpen, setIsModalOpen] = useState(false);
+   const [isClosing, setIsClosing] = useState(false);
+
+    const handleClose = () => {
+      setIsClosing(true);
+      setTimeout(() => {
+        setIsModalOpen(false);
+        setIsClosing(false);
+      }, 300); 
+    };
 
   return (
     <div
@@ -65,30 +74,39 @@ const Payments: React.FC<PaymentsProps> = ({ darkMode }) => {
       )}
 
       {/* Payment Data Tables */}
-<div className="grid grid-cols-1 gap-6">
-  {activeTab === "record" && (
-    <PaymentsTable darkMode={darkMode} />
-  )}
-</div>
+      <div className="grid grid-cols-1 gap-6">
+        {activeTab === "record" && <PaymentsTable darkMode={darkMode} />}
+      </div>
 
       {/* Modal for Record Payment */}
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+        <div
+          className={`fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 modal-backdrop ${
+            isClosing ? "exit" : ""
+          }`}
+          onClick={handleClose}
+        >
+          {/* Modal Container */}
           <div
-            className={`relative w-full max-w-md p-4 rounded-lg shadow-sm transition-all ${
+            className={`relative w-full max-w-md p-6 rounded-lg shadow-lg modal-container ${
+              isClosing ? "exit" : ""
+            } ${
               darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
             }`}
+            onClick={(e) => e.stopPropagation()} 
           >
             {/* Close Button */}
             <button
-              onClick={() => setIsModalOpen(false)}
+              onClick={handleClose}
               className="absolute top-3 right-3 text-gray-400 hover:text-gray-300"
             >
-              <X className="w-8 h-8" />
+              <X className="w-7 h-7" />
             </button>
-            <h2 className="text-xl font-semibold text-center">
+
+            <h2 className="text-xl font-semibold text-center mb-4">
               Record Payment
             </h2>
+
             {/* RecordPayment Component */}
             <RecordPayment darkMode={darkMode} />
           </div>
