@@ -15,10 +15,20 @@ const Header: React.FC<HeaderProps> = ({
   toggleDarkMode,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  const [isNotificationDropdownOpen, setIsNotificationDropdownOpen] =
+    useState(false);
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+  // Toggle Profile Dropdown
+  const toggleProfileDropdown = () => {
+    setIsProfileDropdownOpen(!isProfileDropdownOpen);
+    setIsNotificationDropdownOpen(false); // Close notification dropdown if open
+  };
+
+  // Toggle Notification Dropdown
+  const toggleNotificationDropdown = () => {
+    setIsNotificationDropdownOpen(!isNotificationDropdownOpen);
+    setIsProfileDropdownOpen(false); // Close profile dropdown if open
   };
 
   return (
@@ -63,8 +73,74 @@ const Header: React.FC<HeaderProps> = ({
 
       {/* Right Section: Notifications, Dark Mode Toggle & Profile */}
       <div className="flex items-center space-x-4">
-        {/* Notification Icon */}
-        <Bell className="w-6 h-6 cursor-pointer hover:text-gray-300 transition-colors duration-200" />
+        {/* Notification Icon with Dropdown */}
+        <div className="relative">
+          <button
+            onClick={toggleNotificationDropdown}
+            className="p-2 rounded-full transition-colors duration-200 hover:bg-gray-200 dark:hover:bg-gray-800"
+          >
+            <Bell className="w-6 h-6 cursor-pointer hover:text-gray-300 transition-colors duration-200" />
+          </button>
+          {/* Notification Dropdown Menu */}
+          <div
+            className={`absolute right-0 mt-4 w-64 z-50 ${
+              darkMode ? "bg-gray-800 text-gray-300" : "bg-white text-gray-700"
+            } bg-opacity-90 backdrop-blur-md rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 ${
+              isNotificationDropdownOpen
+                ? "translate-y-2 scale-100 opacity-100"
+                : "translate-y-0 scale-95 opacity-0 pointer-events-none"
+            }`}
+          >
+            <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+              <h3 className="font-medium">Notifications</h3>
+            </div>
+            {/* Notification Content with Scroll Fix */}
+            <div
+              className="max-h-64 overflow-y-auto"
+              style={{
+                scrollbarWidth: "thin",
+                scrollbarColor: darkMode
+                  ? "#4B5563 #1F2937"
+                  : "#D1D5DB #FFFFFF",
+              }}
+            >
+              {/* Notification Item */}
+              <div
+                className={`px-4 py-3 hover:bg-${
+                  darkMode ? "gray-700" : "indigo-50"
+                } transition-colors duration-200 cursor-pointer`}
+              >
+                <p className="text-sm">
+                  <strong>Kofi Owusu</strong> made a recent deposit of ₵50.00
+                </p>
+                <small className="text-xs text-gray-500">Just now</small>
+              </div>
+              {/* Notification Item */}
+              <div
+                className={`px-4 py-3 hover:bg-${
+                  darkMode ? "gray-700" : "indigo-50"
+                } transition-colors duration-200 cursor-pointer`}
+              >
+                <p className="text-sm">
+                  <strong>Akua Mensah</strong> has a low balance of -₵30.00
+                </p>
+                <small className="text-xs text-gray-500">10 minutes ago</small>
+              </div>
+              {/* Notification Item */}
+              <div
+                className={`px-4 py-3 hover:bg-${
+                  darkMode ? "gray-700" : "indigo-50"
+                } transition-colors duration-200 cursor-pointer`}
+              >
+                <p className="text-sm">
+                  <strong>Yaa Asantewaa</strong> has not paid the feeding fee
+                </p>
+                <small className="text-xs text-gray-500">1 hour ago</small>
+              </div>
+              {/* Add more notifications here if needed */}
+            </div>
+          </div>
+        </div>
 
         {/* Dark Mode Toggle */}
         <button
@@ -81,7 +157,7 @@ const Header: React.FC<HeaderProps> = ({
         {/* User Profile Dropdown */}
         <div className="relative">
           <button
-            onClick={toggleDropdown}
+            onClick={toggleProfileDropdown}
             className="flex items-center space-x-2 cursor-pointer focus:outline-none"
           >
             {/* Profile Image */}
@@ -94,34 +170,49 @@ const Header: React.FC<HeaderProps> = ({
             <ChevronDown
               className="w-4 h-4 transition-transform duration-300 ease-in-out"
               style={{
-                transform: isDropdownOpen ? "rotate(180deg)" : "rotate(0deg)",
+                transform: isProfileDropdownOpen
+                  ? "rotate(180deg)"
+                  : "rotate(0deg)",
               }}
             />
           </button>
-
-          {/* Dropdown Menu with Animation */}
+          {/* Profile Dropdown Menu */}
           <div
-            className={`absolute right-0 mt-4 w-52 z-50 bg-white bg-opacity-90 backdrop-blur-md rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 ${
-              isDropdownOpen
+            className={`absolute right-0 mt-4 w-52 z-50 ${
+              darkMode ? "bg-gray-800 text-gray-300" : "bg-white text-gray-700"
+            } bg-opacity-90 backdrop-blur-md rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 ${
+              isProfileDropdownOpen
                 ? "translate-y-2 scale-100 opacity-100"
                 : "translate-y-0 scale-95 opacity-0 pointer-events-none"
             }`}
           >
             <a
               href="#"
-              className="block px-4 py-3 text-gray-700 hover:bg-indigo-50 transition-colors"
+              className={`block px-4 py-3 ${
+                darkMode
+                  ? "hover:bg-gray-700"
+                  : "hover:bg-indigo-50 text-gray-700"
+              } transition-colors`}
             >
               Account Settings
             </a>
             <a
               href="#"
-              className="block px-4 py-3 text-gray-700 hover:bg-indigo-50 transition-colors"
+              className={`block px-4 py-3 ${
+                darkMode
+                  ? "hover:bg-gray-700"
+                  : "hover:bg-indigo-50 text-gray-700"
+              } transition-colors`}
             >
               Change Password
             </a>
             <a
               href="#"
-              className="block px-4 py-3 text-red-600 hover:bg-red-50 transition-colors"
+              className={`block px-4 py-3 ${
+                darkMode
+                  ? "text-red-400 hover:bg-red-800"
+                  : "text-red-600 hover:bg-red-50"
+              } transition-colors`}
             >
               Logout
             </a>
