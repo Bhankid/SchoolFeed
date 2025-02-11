@@ -195,6 +195,7 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
                     : "focus:ring-indigo-500 bg-white text-gray-700"
                 }`}
               >
+                <option value="advance">Select Payment Type</option>
                 <option value="advance">Advance Payment</option>
                 <option value="regular">Regular Payment</option>
                 <option value="credit">Credit Payment</option>
