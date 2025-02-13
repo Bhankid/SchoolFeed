@@ -13,8 +13,8 @@ interface SidebarProps {
   activeTab: string;
   setActiveTab: (tabId: string) => void;
   darkMode: boolean;
-  isSidebarOpen: boolean; // Managed by the parent component
-  toggleSidebar: () => void; // Function to toggle sidebar
+  isSidebarOpen: boolean;
+  toggleSidebar: () => void; 
 }
 
 const Sidebar = ({
@@ -62,7 +62,7 @@ const Sidebar = ({
               </span>
               <span
                 className={`${
-                  darkMode ? "text-indigo-500" : "text-indigo-600"
+                  darkMode ? "text-purple-500" : "text-purple-600"
                 }`}
               >
                 Feed
@@ -71,7 +71,7 @@ const Sidebar = ({
             <p className="text-sm">
               <span
                 className={`${
-                  darkMode ? "text-indigo-500" : "text-indigo-600"
+                  darkMode ? "text-purple-500" : "text-purple-600"
                 }`}
               >
                 Feeding Fee{" "}
@@ -99,13 +99,13 @@ const Sidebar = ({
               }}
               className={`w-full flex items-center px-6 py-4 ${
                 darkMode
-                  ? "text-gray-300 hover:bg-gray-800 hover:text-indigo-500"
-                  : "text-gray-700 hover:bg-indigo-50 hover:text-indigo-600"
+                  ? "text-gray-300 hover:bg-gray-800 hover:text-purple-500"
+                  : "text-gray-700 hover:bg-purple-50 hover:text-purple-600"
               } transition-colors ${
                 activeTab === tab.id
                   ? darkMode
-                    ? "bg-gray-800 text-indigo-500"
-                    : "bg-indigo-50 text-indigo-600"
+                    ? "bg-gray-800 text-purple-500"
+                    : "bg-indigo-50 text-purple-600"
                   : ""
               }`}
             >

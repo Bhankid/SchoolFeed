@@ -34,7 +34,7 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <header
       className={`py-4 px-6 flex items-center justify-between shadow-md w-full ${
-        darkMode ? "bg-gray-900 text-white" : "bg-indigo-500 text-white"
+        darkMode ? "bg-gray-900 text-white" : "bg-purple-600 text-white"
       }`}
     >
       {/* Left Section: Sidebar Toggle & Greeting */}

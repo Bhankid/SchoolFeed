@@ -185,10 +185,10 @@ const AddStudent: React.FC<AddStudentProps> = ({
               onClick={handleSubmit}
               className={`px-4 py-2 rounded-md transition-colors ${
                 darkMode
-                  ? "bg-indigo-500 text-white hover:bg-indigo-400"
-                  : "bg-indigo-600 text-white hover:bg-indigo-700"
+                  ? "bg-purple-500 text-white hover:bg-purple-400"
+                  : "bg-purple-600 text-white hover:bg-purple-700"
               }`}
-              disabled={loading} // Disable button while loading
+              disabled={loading} 
             >
               {loading ? "Adding..." : "Add Student"}
             </button>

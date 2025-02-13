@@ -169,8 +169,8 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
             onChange={(e) => setSelectedClass(e.target.value)}
             className={`w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 ${
               darkMode
-                ? "focus:ring-indigo-500 bg-gray-700 text-gray-300"
-                : "focus:ring-indigo-500 bg-white text-gray-700"
+                ? "focus:ring-purple-500 bg-gray-700 text-gray-300"
+                : "focus:ring-purple-500 bg-white text-gray-700"
             }`}
           >
             <option value="">All Classes</option>
@@ -193,8 +193,8 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
             onChange={(e) => setSearchQuery(e.target.value)}
             className={`w-full pl-4 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
               darkMode
-                ? "focus:ring-indigo-500 bg-gray-700 text-gray-300"
-                : "focus:ring-indigo-500 bg-white text-gray-700"
+                ? "focus:ring-purple-500 bg-gray-700 text-gray-300"
+                : "focus:ring-purple-500 bg-white text-gray-700"
             }`}
             placeholder="Search by name..."
           />
@@ -230,7 +230,7 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
             checked={isPresent}
             onChange={setIsPresent}
             className={`${
-              isPresent ? "bg-indigo-500" : "bg-gray-400"
+              isPresent ? "bg-purple-500" : "bg-gray-400"
             } relative inline-flex h-6 w-11 items-center rounded-full transition-colors`}
           >
             <span className="sr-only">Student is present</span>
@@ -249,7 +249,7 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
             checked={isPaying}
             onChange={setIsPaying}
             className={`${
-              isPaying ? "bg-indigo-500" : "bg-gray-400"
+              isPaying ? "bg-purple-500" : "bg-gray-400"
             } relative inline-flex h-6 w-11 items-center rounded-full transition-colors`}
           >
             <span className="sr-only">Student is paying</span>
@@ -287,8 +287,8 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
               onChange={(e) => setAmount(e.target.value)}
               className={`w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 ${
                 darkMode
-                  ? "focus:ring-indigo-500 bg-gray-700 text-gray-300"
-                  : "focus:ring-indigo-500 bg-white text-gray-700"
+                  ? "focus:ring-purple-500 bg-gray-700 text-gray-300"
+                  : "focus:ring-purple-500 bg-white text-gray-700"
               }`}
               placeholder="₵0.00"
             />
@@ -303,8 +303,8 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
               onChange={(e) => setCurrentDate(e.target.value)}
               className={`w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 ${
                 darkMode
-                  ? "focus:ring-indigo-500 bg-gray-700 text-gray-300"
-                  : "focus:ring-indigo-500 bg-white text-gray-700"
+                  ? "focus:ring-purple-500 bg-gray-700 text-gray-300"
+                  : "focus:ring-purple-500 bg-white text-gray-700"
               }`}
             />
           </div>
@@ -319,8 +319,8 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
               onChange={(e) => setPaymentType(e.target.value)}
               className={`w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 ${
                 darkMode
-                  ? "focus:ring-indigo-500 bg-gray-700 text-gray-300"
-                  : "focus:ring-indigo-500 bg-white text-gray-700"
+                  ? "focus:ring-purple-500 bg-gray-700 text-gray-300"
+                  : "focus:ring-purple-500 bg-white text-gray-700"
               }`}
             >
               <option value="">Select Payment Type</option>
@@ -367,8 +367,8 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
             onClick={handleSubmit}
             className={`w-full px-4 py-2 rounded-md transition-colors ${
               darkMode
-                ? "bg-indigo-500 text-white hover:bg-indigo-400"
-                : "bg-indigo-600 text-white hover:bg-indigo-700"
+                ? "bg-purple-500 text-white hover:bg-purple-400"
+                : "bg-purple-600 text-white hover:bg-purple-700"
             }`}
           >
             Record Payment

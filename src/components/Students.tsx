@@ -48,7 +48,7 @@ function Students({ darkMode }: { darkMode: boolean }) {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
       </div>
     );
   }
@@ -66,8 +66,8 @@ function Students({ darkMode }: { darkMode: boolean }) {
           onClick={() => setShowAddModal(true)}
           className={`${
             darkMode
-              ? "bg-indigo-500 text-white hover:bg-indigo-400"
-              : "bg-indigo-600 text-white hover:bg-indigo-700"
+              ? "bg-purple-500 text-white hover:bg-purple-400"
+              : "bg-purple-600 text-white hover:bg-purple-700"
           } px-4 py-2 rounded-lg flex items-center transition-colors`}
         >
           <Plus className="w-5 h-5 mr-2" />
@@ -116,8 +116,8 @@ function Students({ darkMode }: { darkMode: boolean }) {
               className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
                 activeTab === tab.id
                   ? darkMode
-                    ? "border-indigo-500 text-indigo-400"
-                    : "border-indigo-500 text-indigo-600"
+                    ? "border-purple-500 text-purple-400"
+                    : "border-purple-500 text-purple-600"
                   : darkMode
                   ? "border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-600"
                   : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
@@ -140,8 +140,8 @@ function Students({ darkMode }: { darkMode: boolean }) {
             onChange={(e) => setSearchTerm(e.target.value)}
             className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
               darkMode
-                ? "focus:ring-indigo-500 bg-gray-700 text-gray-300 border-gray-600"
-                : "focus:ring-indigo-500 bg-white text-gray-700 border-gray-300"
+                ? "focus:ring-purple-500 bg-gray-700 text-gray-300 border-gray-600"
+                : "focus:ring-purple-500 bg-white text-gray-700 border-gray-300"
             }`}
           />
           <Search
@@ -154,8 +154,8 @@ function Students({ darkMode }: { darkMode: boolean }) {
           <select
             className={`w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 ${
               darkMode
-                ? "focus:ring-indigo-500 bg-gray-700 text-gray-300 border-gray-600"
-                : "focus:ring-indigo-500 bg-white text-gray-700 border-gray-300"
+                ? "focus:ring-purple-500 bg-gray-700 text-gray-300 border-gray-600"
+                : "focus:ring-purple-500 bg-white text-gray-700 border-gray-300"
             }`}
           >
             <option value="">All Classes</option>
@@ -255,8 +255,8 @@ function Students({ darkMode }: { darkMode: boolean }) {
                     <button
                       className={`px-3 py-1 rounded-md text-sm font-medium ${
                         darkMode
-                          ? "bg-indigo-500 text-white hover:bg-indigo-400"
-                          : "bg-indigo-600 text-white hover:bg-indigo-700"
+                          ? "bg-purple-500 text-white hover:bg-purple-400"
+                          : "bg-purple-600 text-white hover:bg-purple-700"
                       }`}
                     >
                       Record Meal
