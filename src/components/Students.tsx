@@ -1,56 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Plus, Search } from "lucide-react";
 import AddStudent from "./AddStudent";
+import axios from "axios";
 
 function Students({ darkMode }: { darkMode: boolean }) {
   const [showAddModal, setShowAddModal] = useState(false);
   const [activeTab, setActiveTab] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
-  const [students, setStudents] = useState([
-    {
-      id: 1,
-      name: "Kofi Owusu",
-      class: "Class 1",
-      paymentType: "Irregular",
-      balance: "₵50.00",
-      lastMeal: "2025-02-19",
-    },
-    {
-      id: 2,
-      name: "Akua Mensah",
-      class: "Class 2",
-      paymentType: "Credit",
-      balance: "-₵30.00",
-      lastMeal: "2025-02-20",
-    },
-    {
-      id: 3,
-      name: "Yaa Asantewaa",
-      class: "Class 1",
-      paymentType: "Regular",
-      balance: "₵0.00",
-      lastMeal: "2025-02-21",
-    },
-    {
-      id: 4,
-      name: "Kwame Boateng",
-      class: "Class 3",
-      paymentType: "Irregular",
-      balance: "₵20.00",
-      lastMeal: "2025-02-18",
-    },
-    {
-      id: 5,
-      name: "Ama Serwaa",
-      class: "Class 2",
-      paymentType: "Advance",
-      balance: "₵100.00",
-      lastMeal: "2025-02-22",
-    },
-  ]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [students, setStudents] = useState<any[]>([]);
+
+  // Fetch students from backend
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/students");
+        setStudents(response.data);
+      } catch (err) {
+        setError("Failed to load students");
+        console.error("Error fetching students:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStudents();
+  }, []);
 
   // Filter students based on the active tab and search term
-  const filteredStudents = students.filter((student) => {
+  const filteredStudents = students.filter((student: any) => {
     const matchesSearch =
       student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       student.class.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -59,10 +38,20 @@ function Students({ darkMode }: { darkMode: boolean }) {
     return matchesSearch && student.paymentType.toLowerCase() === activeTab;
   });
 
-  // Handle adding a new student to the list
+  // Handle adding a new student
   const handleAddStudent = (student: any) => {
+    // Simply update the local state after successful submission from AddStudent
     setStudents([...students, student]);
   };
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -74,7 +63,7 @@ function Students({ darkMode }: { darkMode: boolean }) {
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Students</h2>
         <button
-          onClick={() => setShowAddModal(true)} // Open the modal
+          onClick={() => setShowAddModal(true)}
           className={`${
             darkMode
               ? "bg-indigo-500 text-white hover:bg-indigo-400"
@@ -89,15 +78,13 @@ function Students({ darkMode }: { darkMode: boolean }) {
       {/* Add Student Modal */}
       {showAddModal && (
         <>
-          {/* Backdrop */}
           <div
             className={`fixed inset-0 bg-black bg-opacity-50 z-40 ${
               showAddModal ? "modal-backdrop" : "modal-backdrop exit"
             }`}
-            onClick={() => setShowAddModal(false)} // Close modal when clicking outside
+            onClick={() => setShowAddModal(false)}
           ></div>
 
-          {/* Modal Container */}
           <div
             className={`fixed inset-0 flex items-center justify-center z-50 ${
               showAddModal ? "modal-container" : "modal-container exit"
@@ -121,7 +108,7 @@ function Students({ darkMode }: { darkMode: boolean }) {
             { id: "regular", name: "Regular" },
             { id: "irregular", name: "Irregular Eaters" },
             { id: "credit", name: "Credit Students" },
-            { id: "advance", name: "Advance Payment" }, // Added Advance Tab
+            { id: "advance", name: "Advance Payment" },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -220,7 +207,7 @@ function Students({ darkMode }: { darkMode: boolean }) {
                   : "bg-white divide-gray-200"
               }`}
             >
-              {filteredStudents.map((student, index) => (
+              {filteredStudents.map((student: any, index: number) => (
                 <tr
                   key={student.id}
                   className={`${
@@ -248,7 +235,7 @@ function Students({ darkMode }: { darkMode: boolean }) {
                           ? "bg-yellow-500 text-black"
                           : student.paymentType === "Credit"
                           ? "bg-red-500 text-white"
-                          : "bg-blue-500 text-white" 
+                          : "bg-blue-500 text-white"
                       }`}
                     >
                       {student.paymentType}
@@ -256,13 +243,13 @@ function Students({ darkMode }: { darkMode: boolean }) {
                   </td>
                   <td
                     className={`px-6 py-4 whitespace-nowrap ${
-                      student.balance.startsWith("-") ? "text-red-400" : ""
+                      parseFloat(student.balance) < 0 ? "text-red-400" : ""
                     }`}
                   >
-                    {student.balance}
+                    ₵{student.balance}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {student.lastMeal}
+                    {new Date(student.lastMeal).toLocaleDateString()}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <button

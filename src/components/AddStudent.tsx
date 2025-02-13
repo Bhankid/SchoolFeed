@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios"; // Import axios for API requests
 
 interface AddStudentProps {
   isOpen: boolean;
@@ -28,6 +29,9 @@ const AddStudent: React.FC<AddStudentProps> = ({
     lastMeal: "",
   });
 
+  const [loading, setLoading] = useState(false); // Loading state
+  const [error, setError] = useState<string | null>(null); // Error state
+
   // Handle input changes
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -37,23 +41,43 @@ const AddStudent: React.FC<AddStudentProps> = ({
   };
 
   // Handle student submission
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!newStudent.name || !newStudent.class || !newStudent.paymentType)
       return;
 
-    const newId = Date.now(); // Generate unique ID
-    onAddStudent({ ...newStudent, id: newId });
-    setNewStudent({
-      name: "",
-      class: "",
-      paymentType: "",
-      balance: "",
-      lastMeal: "",
-    });
-    onClose();
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await axios.post("http://localhost:3000/students", {
+        name: newStudent.name,
+        class: newStudent.class,
+        paymentType: newStudent.paymentType,
+        balance: parseFloat(newStudent.balance) || 0,
+        lastMeal: newStudent.lastMeal || null,
+      });
+
+      onAddStudent(response.data);
+      setNewStudent({
+        name: "",
+        class: "",
+        paymentType: "",
+        balance: "",
+        lastMeal: "",
+      });
+      onClose();
+
+      // Redirect to home page after successful submission
+      window.location.href = "http://localhost:5173";
+    } catch (err) {
+      setError("Failed to add student. Please try again.");
+      console.error("Error adding student:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  if (!isOpen) return null; // Don't render if modal is not open
+  if (!isOpen) return null; 
 
   return (
     <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
@@ -63,6 +87,7 @@ const AddStudent: React.FC<AddStudentProps> = ({
         } p-6 rounded-lg shadow-lg w-full sm:w-96 transition-transform transform scale-100`}
       >
         <h3 className="text-xl font-bold mb-4 text-center">Add New Student</h3>
+        {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
         <form className="space-y-4">
           {/* Name Field */}
           <div>
@@ -118,7 +143,7 @@ const AddStudent: React.FC<AddStudentProps> = ({
             >
               <option value="">Select Payment Type</option>
               <option value="Regular">Regular Eater</option>
-              <option value="Regular">Advance Payment</option>
+              <option value="Advance">Advance Payment</option>
               <option value="Irregular">Irregular Eater</option>
               <option value="Credit">Credit Eater</option>
             </select>
@@ -163,8 +188,9 @@ const AddStudent: React.FC<AddStudentProps> = ({
                   ? "bg-indigo-500 text-white hover:bg-indigo-400"
                   : "bg-indigo-600 text-white hover:bg-indigo-700"
               }`}
+              disabled={loading} // Disable button while loading
             >
-              Add Student
+              {loading ? "Adding..." : "Add Student"}
             </button>
           </div>
         </form>
