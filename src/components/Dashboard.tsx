@@ -33,7 +33,7 @@ interface StatCardProps {
   value: string;
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
   color: string;
-  darkMode?: boolean; // Add darkMode prop
+  darkMode?: boolean;
 }
 
 const StatCard: React.FC<StatCardProps> = ({
@@ -43,10 +43,9 @@ const StatCard: React.FC<StatCardProps> = ({
   color,
   darkMode = false,
 }) => {
-  // Extract numeric value and symbol (e.g., "₵" or "%") from the value string
-  const numericValue = parseFloat(value.replace(/[^0-9.-]+/g, ""));
-  const symbol = value.replace(/[0-9.-]+/g, "");
-
+ // Extract numeric value and symbol (e.g., "₵" or "%") from the value string
+const numericValue = parseFloat(value.replace(/[^0-9.-]+/g, ""));
+const symbol = value.replace(/[0-9.-]+/g, "").replace(/₵,/, "₵"); 
   return (
     <div
       className={`rounded-lg shadow-md p-4 transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg ${
@@ -94,8 +93,8 @@ function Dashboard({ darkMode }: { darkMode: boolean }) {
       {
         label: "Daily Collections (₵)",
         data: [2450, 2800, 2600, 2900, 2700],
-        borderColor: "rgb(99, 102, 241)",
-        backgroundColor: "rgba(99, 102, 241, 0.1)",
+        borderColor: "rgb(122, 70, 246)",
+        backgroundColor: "rgba(122, 70, 246, 0.1)",
         tension: 0.4,
         fill: true,
       },
@@ -108,12 +107,12 @@ function Dashboard({ darkMode }: { darkMode: boolean }) {
       {
         data: [65, 20, 15],
         backgroundColor: [
-          "rgba(99, 102, 241, 0.8)",
+          "rgba(122, 70, 246, 0.8)",
           "rgba(34, 197, 94, 0.8)",
           "rgba(249, 115, 22, 0.8)",
         ],
         borderColor: [
-          "rgb(99, 102, 241)",
+          "rgb(122, 70, 246)",
           "rgb(34, 197, 94)",
           "rgb(249, 115, 22)",
         ],
@@ -128,7 +127,7 @@ function Dashboard({ darkMode }: { darkMode: boolean }) {
       {
         label: "Collections",
         data: [11200, 12400, 10800, 10880],
-        backgroundColor: "rgba(99, 102, 241, 0.8)",
+        backgroundColor: "rgba(122, 70, 246, 0.8)",
       },
       {
         label: "Pending Payments",
