@@ -80,8 +80,8 @@ function Alerts({ darkMode }: { darkMode: boolean }) {
                 <button
                   className={`${
                     darkMode
-                      ? "text-indigo-400 hover:text-indigo-300"
-                      : "text-indigo-600 hover:text-indigo-800"
+                      ? "text-purple-400 hover:text-purple-300"
+                      : "text-purple-600 hover:text-purple-800"
                   } transition duration-300 text-sm`}
                 >
                   Record Payment
@@ -156,8 +156,8 @@ function Alerts({ darkMode }: { darkMode: boolean }) {
                 <button
                   className={`${
                     darkMode
-                      ? "text-indigo-400 hover:text-indigo-300"
-                      : "text-indigo-600 hover:text-indigo-800"
+                      ? "text-purple-400 hover:text-purple-300"
+                      : "text-purple-600 hover:text-purple-800"
                   } transition duration-300 text-sm`}
                 >
                   Top Up

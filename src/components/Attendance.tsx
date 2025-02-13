@@ -48,8 +48,8 @@ function Attendance({ darkMode }: { darkMode: boolean }) {
               onChange={(e) => setSearchTerm(e.target.value)}
               className={`w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 ${
                 darkMode
-                  ? "focus:ring-indigo-500 bg-gray-700 text-gray-300"
-                  : "focus:ring-indigo-500 bg-white text-gray-700"
+                  ? "focus:ring-purple-500 bg-gray-700 text-gray-300"
+                  : "focus:ring-purple-500 bg-white text-gray-700"
               }`}
             />
           </div>
@@ -63,8 +63,8 @@ function Attendance({ darkMode }: { darkMode: boolean }) {
               id="date"
               className={`border rounded-lg px-4 py-2 w-full sm:w-auto focus:outline-none focus:ring-2 ${
                 darkMode
-                  ? "focus:ring-indigo-500 bg-gray-700 text-gray-300"
-                  : "focus:ring-indigo-500 bg-white text-gray-700"
+                  ? "focus:ring-purple-500 bg-gray-700 text-gray-300"
+                  : "focus:ring-purple-500 bg-white text-gray-700"
               }`}
             />
           </div>
@@ -72,8 +72,8 @@ function Attendance({ darkMode }: { darkMode: boolean }) {
           <select
             className={`border rounded-lg px-4 py-2 w-full sm:w-auto focus:outline-none focus:ring-2 ${
               darkMode
-                ? "focus:ring-indigo-500 bg-gray-700 text-gray-300"
-                : "focus:ring-indigo-500 bg-white text-gray-700"
+                ? "focus:ring-purple-500 bg-gray-700 text-gray-300"
+                : "focus:ring-purple-500 bg-white text-gray-700"
             }`}
           >
             <option value="">All Classes</option>
@@ -84,8 +84,8 @@ function Attendance({ darkMode }: { darkMode: boolean }) {
           {/* Mark All Present Button */}
           <button
             className={`${
-              darkMode ? "bg-indigo-500" : "bg-indigo-600"
-            } text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors whitespace-nowrap w-full sm:w-auto`}
+              darkMode ? "bg-purple-500" : "bg-purple-600"
+            } text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors whitespace-nowrap w-full sm:w-auto`}
           >
             Mark All Present
           </button>

@@ -152,17 +152,30 @@ function Students({ darkMode }: { darkMode: boolean }) {
         </div>
         <div className="flex-1 w-1/2">
           <select
-            className={`w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 ${
-              darkMode
-                ? "focus:ring-purple-500 bg-gray-700 text-gray-300 border-gray-600"
-                : "focus:ring-purple-500 bg-white text-gray-700 border-gray-300"
-            }`}
-          >
-            <option value="">All Classes</option>
-            <option value="1">Class 1</option>
-            <option value="2">Class 2</option>
-            <option value="3">Class 3</option>
-          </select>
+  className={`w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 ${
+    darkMode
+      ? "focus:ring-purple-500 bg-gray-700 text-gray-300 border-gray-600"
+      : "focus:ring-purple-500 bg-white text-gray-700 border-gray-300"
+  }`}
+>
+  <option value="">All Classes</option>
+  <option value="Creche">Creche</option>
+  <option value="Nursery 1">Nursery 1</option>
+  <option value="Nursery 2">Nursery 2</option>
+  <option value="KG1">KG1</option>
+  <option value="KG2">KG2</option>
+  {[1, 2, 3, 4, 5, 6].map((num) => (
+    <option key={num} value={num.toString()}>
+      Class {num}
+    </option>
+  ))}
+  {[1, 2, 3].map((num) => (
+    <option key={num} value={`JHS ${num}`}>
+      JHS {num}
+    </option>
+  ))}
+</select>
+
         </div>
       </div>
 

@@ -249,7 +249,7 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
             checked={isPaying}
             onChange={setIsPaying}
             className={`${
-              isPaying ? "bg-purple-500" : "bg-gray-400"
+              isPaying ? "bg-green-500" : "bg-gray-400"
             } relative inline-flex h-6 w-11 items-center rounded-full transition-colors`}
           >
             <span className="sr-only">Student is paying</span>

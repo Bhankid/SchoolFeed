@@ -376,7 +376,7 @@ const Payments: React.FC<PaymentsProps> = ({ darkMode }) => {
                       </div>
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap">
-                      <button className="text-indigo-600 hover:text-indigo-700 mr-3">
+                      <button className="text-purple-600 hover:text-purple-700 mr-3">
                         Record Meal
                       </button>
                       <button className="text-green-600 hover:text-green-700">

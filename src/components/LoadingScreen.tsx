@@ -29,7 +29,7 @@ function LoadingScreen({ onLoaded }: { onLoaded: () => void }) {
         {/* Progress Bar */}
         <div className="relative w-48 h-4 bg-gray-700 rounded-full overflow-hidden mb-4">
           <div
-            className="absolute top-0 left-0 h-full bg-indigo-600 transition-all duration-[5s] ease-in-out"
+            className="absolute top-0 left-0 h-full bg-purple-600 transition-all duration-[5s] ease-in-out"
             style={{ width: `${loadingProgress}%` }}
           ></div>
         </div>

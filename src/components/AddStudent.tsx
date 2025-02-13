@@ -110,21 +110,34 @@ const AddStudent: React.FC<AddStudentProps> = ({
           <div>
             <label className="block text-sm font-medium">Class</label>
             <select
-              name="class"
-              value={newStudent.class}
-              onChange={handleInputChange}
-              className={`w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 ${
-                darkMode
-                  ? "bg-gray-700 text-gray-300 border-gray-600"
-                  : "bg-white text-gray-700 border-gray-300"
-              }`}
-              required
-            >
-              <option value="">Select Class</option>
-              <option value="Class 1">Class 1</option>
-              <option value="Class 2">Class 2</option>
-              <option value="Class 3">Class 3</option>
-            </select>
+  name="class"
+  value={newStudent.class}
+  onChange={handleInputChange}
+  className={`w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 ${
+    darkMode
+      ? "bg-gray-700 text-gray-300 border-gray-600"
+      : "bg-white text-gray-700 border-gray-300"
+  }`}
+  required
+>
+  <option value="">Select Class</option>
+  <option value="Creche">Creche</option>
+  <option value="Nursery 1">Nursery 1</option>
+  <option value="Nursery 2">Nursery 2</option>
+  <option value="KG1">KG1</option>
+  <option value="KG2">KG2</option>
+  {[1, 2, 3, 4, 5, 6].map((num) => (
+    <option key={num} value={`Class ${num}`}>
+      Class {num}
+    </option>
+  ))}
+  {[1, 2, 3].map((num) => (
+    <option key={num} value={`JHS ${num}`}>
+      JHS {num}
+    </option>
+  ))}
+</select>
+
           </div>
 
           {/* Payment Type */}
