@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Users, CreditCard, Bell, TrendingUp } from "lucide-react";
 import {
   Chart as ChartJS,
@@ -46,7 +46,6 @@ const StatCard: React.FC<StatCardProps> = ({
   // Extract numeric value and symbol (e.g., "₵" or "%") from the value string
   const numericValue = parseFloat(value.replace(/[^0-9.-]+/g, ""));
   const symbol = value.replace(/[0-9.-]+/g, "");
-
   return (
     <div
       className={`rounded-lg shadow-md p-4 transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg ${
@@ -87,7 +86,27 @@ const StatCard: React.FC<StatCardProps> = ({
 };
 
 function Dashboard({ darkMode }: { darkMode: boolean }) {
-  // Sample data for the charts
+  const [totalStudents, setTotalStudents] = useState<string>("0");
+
+  useEffect(() => {
+    // Fetch total number of students from the backend
+    const fetchTotalStudents = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/students/total");
+        if (!response.ok) {
+          throw new Error("Failed to fetch total students");
+        }
+        const data = await response.json();
+        setTotalStudents(data.total.toString());
+      } catch (error) {
+        console.error("Error fetching total students:", error);
+      }
+    };
+
+    fetchTotalStudents();
+  }, []);
+
+  // Sample data for the charts (unchanged)
   const weeklyCollections = {
     labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
     datasets: [
@@ -152,18 +171,18 @@ function Dashboard({ darkMode }: { darkMode: boolean }) {
     scales: {
       x: {
         ticks: {
-          color: darkMode ? "#ffffff" : "#000000", 
+          color: darkMode ? "#ffffff" : "#000000",
         },
         grid: {
-          color: darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)", 
+          color: darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
         },
       },
       y: {
         ticks: {
-          color: darkMode ? "#ffffff" : "#000000", 
+          color: darkMode ? "#ffffff" : "#000000",
         },
         grid: {
-          color: darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)", 
+          color: darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
         },
       },
     },
@@ -179,7 +198,7 @@ function Dashboard({ darkMode }: { darkMode: boolean }) {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <StatCard
           title="Total Students"
-          value="324"
+          value={totalStudents}
           icon={Users}
           color="bg-blue-500"
           darkMode={darkMode}

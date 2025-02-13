@@ -74,6 +74,15 @@ router.get("/by-class/:className", async (req, res) => {
   }
 });
 
+// Get Total Number of Students
+router.get("/total", async (req, res) => {
+  try {
+    const totalStudents = await Student.count();
+    res.json({ total: totalStudents });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 
 export default router;

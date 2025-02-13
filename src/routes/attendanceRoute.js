@@ -22,9 +22,7 @@ router.post("/", async (req, res) => {
     });
   } catch (err) {
     console.error("Error recording attendance:", err);
-    res
-      .status(500)
-      .json({ message: "Error recording attendance", error: err.message });
+    res.status(500).json({ message: "Error recording attendance", error: err.message });
   }
 });
 
