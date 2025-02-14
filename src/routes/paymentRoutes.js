@@ -4,12 +4,22 @@ import Payment from '../models/Payment.js';
 import Student from '../models/Student.js'; 
 
 // Record Payment
-router.post('/', async (req, res) => {
+router.post("/", async (req, res) => {
   try {
+    const { studentId, amount, paymentType, paymentMode, date } = req.body;
+
+    // Validate required fields
+    if (!studentId || !amount || !paymentType || !paymentMode || !date) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    // Insert payment record into the database
     const payment = await Payment.create(req.body);
+
     res.status(201).json(payment);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("Error recording payment:", err);
+    res.status(500).json({ message: "Error recording payment", error: err.message });
   }
 });
 

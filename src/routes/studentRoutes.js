@@ -38,12 +38,30 @@ router.post("/", async (req, res) => {
 // Get All Students
 router.get("/", async (req, res) => {
   try {
-    const students = await Student.findAll({
+    // Ensure page and limit are valid numbers
+    const page = Number(req.query.page) > 0 ? parseInt(req.query.page, 10) : 1;
+    const limit = Number(req.query.limit) > 0 ? parseInt(req.query.limit, 10) : 10;
+    const offset = (page - 1) * limit;
+
+    // Fetch students with pagination
+    const { count, rows: students } = await Student.findAndCountAll({
+      limit,
+      offset,
       order: [["createdAt", "DESC"]],
     });
-    res.json(students);
+
+    // Ensure totalPages is at least 1
+    const totalPages = Math.max(Math.ceil(count / limit), 1);
+
+    res.json({
+      totalItems: count,
+      totalPages,
+      currentPage: page > totalPages ? totalPages : page, // Prevent invalid page numbers
+      students,
+    });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("Error fetching students:", err);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 

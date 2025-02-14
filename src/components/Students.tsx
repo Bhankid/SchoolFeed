@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Plus, Search } from "lucide-react";
+import { Plus, Search,ChevronLeft, ChevronRight  } from "lucide-react";
 import AddStudent from "./AddStudent";
 import axios from "axios";
 
@@ -9,14 +9,35 @@ function Students({ darkMode }: { darkMode: boolean }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [students, setStudents] = useState<any[]>([]);
 
-  // Fetch students from backend
+ 
+  // Fetch students from backend with pagination
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/students");
-        setStudents(response.data);
+        const response = await axios.get("http://localhost:3000/students", {
+          params: { page: currentPage, limit: 10 }, 
+        });
+
+        const { students: fetchedStudents, totalPages: fetchedTotalPages } =
+          response.data;
+
+        // Validate and set the fetched data
+        if (Array.isArray(fetchedStudents)) {
+          setStudents(fetchedStudents);
+          setTotalPages(fetchedTotalPages);
+        } else {
+          console.error(
+            "Unexpected data format received from the backend:",
+            response.data
+          );
+          setStudents([]);
+        }
       } catch (err) {
         setError("Failed to load students");
         console.error("Error fetching students:", err);
@@ -26,7 +47,13 @@ function Students({ darkMode }: { darkMode: boolean }) {
     };
 
     fetchStudents();
-  }, []);
+  }, [currentPage]);
+
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
   // Filter students based on the active tab and search term
   const filteredStudents = students.filter((student: any) => {
@@ -49,6 +76,14 @@ function Students({ darkMode }: { darkMode: boolean }) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-red-500">{error}</div>
       </div>
     );
   }
@@ -152,30 +187,29 @@ function Students({ darkMode }: { darkMode: boolean }) {
         </div>
         <div className="flex-1 w-1/2">
           <select
-  className={`w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 ${
-    darkMode
-      ? "focus:ring-purple-500 bg-gray-700 text-gray-300 border-gray-600"
-      : "focus:ring-purple-500 bg-white text-gray-700 border-gray-300"
-  }`}
->
-  <option value="">All Classes</option>
-  <option value="Creche">Creche</option>
-  <option value="Nursery 1">Nursery 1</option>
-  <option value="Nursery 2">Nursery 2</option>
-  <option value="KG1">KG1</option>
-  <option value="KG2">KG2</option>
-  {[1, 2, 3, 4, 5, 6].map((num) => (
-    <option key={num} value={num.toString()}>
-      Class {num}
-    </option>
-  ))}
-  {[1, 2, 3].map((num) => (
-    <option key={num} value={`JHS ${num}`}>
-      JHS {num}
-    </option>
-  ))}
-</select>
-
+            className={`w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 ${
+              darkMode
+                ? "focus:ring-purple-500 bg-gray-700 text-gray-300 border-gray-600"
+                : "focus:ring-purple-500 bg-white text-gray-700 border-gray-300"
+            }`}
+          >
+            <option value="">All Classes</option>
+            <option value="Creche">Creche</option>
+            <option value="Nursery 1">Nursery 1</option>
+            <option value="Nursery 2">Nursery 2</option>
+            <option value="KG1">KG1</option>
+            <option value="KG2">KG2</option>
+            {[1, 2, 3, 4, 5, 6].map((num) => (
+              <option key={num} value={num.toString()}>
+                Class {num}
+              </option>
+            ))}
+            {[1, 2, 3].map((num) => (
+              <option key={num} value={`JHS ${num}`}>
+                JHS {num}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 
@@ -290,6 +324,50 @@ function Students({ darkMode }: { darkMode: boolean }) {
               ))}
             </tbody>
           </table>
+        </div>
+        {/* Pagination */}
+        <div className="mt-4 flex justify-between items-center">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={`px-4 py-2 rounded-md flex items-center space-x-2 ${
+              currentPage === 1
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+            }`}
+          >
+            <ChevronLeft className="w-4 h-4" />
+            <span>Previous</span>
+          </button>
+
+          <div className="flex space-x-2">
+            {[...Array(totalPages)].map((_, i) => (
+              <button
+                key={i + 1}
+                onClick={() => handlePageChange(i + 1)}
+                className={`px-4 py-2 rounded-md ${
+                  currentPage === i + 1
+                    ? "bg-purple-500 text-white"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                }`}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
+
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className={`px-4 py-2 rounded-md flex items-center space-x-2 ${
+              currentPage === totalPages
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+            }`}
+          >
+            <span>Next</span>
+            <ChevronRight className="w-4 h-4" />
+          </button>
         </div>
       </div>
     </div>
