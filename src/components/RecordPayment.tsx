@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Switch } from "@headlessui/react";
 import { Calendar, CircleDollarSign } from "lucide-react";
+import toast from "react-hot-toast";
 
 interface RecordPaymentProps {
   darkMode: boolean;
@@ -35,12 +36,15 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
   useEffect(() => {
     const fetchClasses = async () => {
       try {
+        toast.loading("Fetching classes...");
         const response = await axios.get(
           "http://localhost:3000/students/classes"
         );
         setClasses(response.data);
+        toast.dismiss();
       } catch (error) {
         console.error("Error fetching classes:", error);
+        toast.error("Failed to fetch classes. Please try again.");
       }
     };
     fetchClasses();
@@ -55,13 +59,16 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
     }
     const fetchStudents = async () => {
       try {
+        toast.loading("Fetching students...");
         const response = await axios.get(
           `http://localhost:3000/students/by-class/${selectedClass}`
         );
         setStudents(response.data);
         setFilteredStudents(response.data);
+        toast.dismiss();
       } catch (error) {
         console.error("Error fetching students:", error);
+        toast.error("Failed to fetch students. Please try again.");
       }
     };
     fetchStudents();
@@ -78,7 +85,7 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
   // Handle Payment & Attendance Submission
   const handleSubmit = async () => {
     if (!selectedStudent) {
-      alert("Please select a student.");
+      toast.error("Please select a student.");
       return;
     }
 
@@ -92,7 +99,7 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
       // If student is paying, record payment
       if (isPaying) {
         if (!amount || !paymentType || !paymentMode) {
-          alert("Please fill all payment details.");
+          toast.error("Please fill all payment details.");
           return;
         }
 
@@ -113,40 +120,42 @@ const RecordPayment: React.FC<RecordPaymentProps> = ({ darkMode }) => {
       setIsPresent(false);
       setIsPaying(false);
 
-      alert("Attendance & Payment recorded successfully!");
+      toast.success("Attendance & Payment recorded successfully!");
     } catch (err) {
       console.error("Error recording data:", err);
-      alert("Failed to record data. Please try again.");
+      toast.error("Failed to record data. Please try again.");
     }
   };
 
-  async function handleSubmitWithoutPayment(
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ): Promise<void> {
-    event.preventDefault();
+async function handleSubmitWithoutPayment(
+  event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+): Promise<void> {
+  event.preventDefault();
 
-    if (!selectedStudent) {
-      alert("Please select a student.");
-      return;
-    }
-
-    try {
-      await axios.post("http://localhost:3000/attendance", {
-        studentId: selectedStudent,
-        isPresent: isPresent,
-      });
-
-      // Reset form fields related to attendance
-      setSelectedStudent(null);
-      setIsPresent(false);
-      setIsPaying(false);
-
-      alert("Attendance recorded successfully!");
-    } catch (err) {
-      console.error("Error recording attendance:", err);
-      alert("Failed to record attendance. Please try again.");
-    }
+  if (!selectedStudent) {
+    toast.error("Please select a student.");
+    return;
   }
+
+  try {
+    toast.loading("Recording attendance...");
+    await axios.post("http://localhost:3000/attendance", {
+      studentId: selectedStudent,
+      isPresent: isPresent,
+    });
+
+    // Reset form fields related to attendance
+    setSelectedStudent(null);
+    setIsPresent(false);
+    setIsPaying(false);
+
+    toast.dismiss();
+    toast.success("Attendance recorded successfully!");
+  } catch (err) {
+    console.error("Error recording attendance:", err);
+    toast.error("Failed to record attendance. Please try again.");
+  }
+}
 
   return (
     <div
