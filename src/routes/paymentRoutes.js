@@ -2,7 +2,7 @@ import express from "express";
 const router = express.Router();
 import Payment from "../models/Payment.js";
 import Student from "../models/Student.js";
-import { Op } from "sequelize"; // Import Sequelize operators
+import { Op } from "sequelize"; 
 
 // Record Payment
 router.post("/", async (req, res) => {
