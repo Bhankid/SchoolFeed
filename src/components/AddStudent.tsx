@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios"; // Import axios for API requests
+import axios from "axios";
+import toast from "react-hot-toast";
 
 interface AddStudentProps {
   isOpen: boolean;
@@ -67,17 +68,18 @@ const AddStudent: React.FC<AddStudentProps> = ({
       });
       onClose();
 
-      // Redirect to home page after successful submission
-      window.location.href = "http://localhost:5173";
+      // Display success toast
+      toast.success("Student added successfully!");
     } catch (err) {
-      setError("Failed to add student. Please try again.");
+      // Display error toast
+      toast.error("Failed to add student. Please try again.");
       console.error("Error adding student:", err);
     } finally {
       setLoading(false);
     }
   };
 
-  if (!isOpen) return null; 
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
@@ -110,34 +112,33 @@ const AddStudent: React.FC<AddStudentProps> = ({
           <div>
             <label className="block text-sm font-medium">Class</label>
             <select
-  name="class"
-  value={newStudent.class}
-  onChange={handleInputChange}
-  className={`w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 ${
-    darkMode
-      ? "bg-gray-700 text-gray-300 border-gray-600"
-      : "bg-white text-gray-700 border-gray-300"
-  }`}
-  required
->
-  <option value="">Select Class</option>
-  <option value="Creche">Creche</option>
-  <option value="Nursery 1">Nursery 1</option>
-  <option value="Nursery 2">Nursery 2</option>
-  <option value="KG1">KG1</option>
-  <option value="KG2">KG2</option>
-  {[1, 2, 3, 4, 5, 6].map((num) => (
-    <option key={num} value={`Class ${num}`}>
-      Class {num}
-    </option>
-  ))}
-  {[1, 2, 3].map((num) => (
-    <option key={num} value={`JHS ${num}`}>
-      JHS {num}
-    </option>
-  ))}
-</select>
-
+              name="class"
+              value={newStudent.class}
+              onChange={handleInputChange}
+              className={`w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 ${
+                darkMode
+                  ? "bg-gray-700 text-gray-300 border-gray-600"
+                  : "bg-white text-gray-700 border-gray-300"
+              }`}
+              required
+            >
+              <option value="">Select Class</option>
+              <option value="Creche">Creche</option>
+              <option value="Nursery 1">Nursery 1</option>
+              <option value="Nursery 2">Nursery 2</option>
+              <option value="KG1">KG1</option>
+              <option value="KG2">KG2</option>
+              {[1, 2, 3, 4, 5, 6].map((num) => (
+                <option key={num} value={`Class ${num}`}>
+                  Class {num}
+                </option>
+              ))}
+              {[1, 2, 3].map((num) => (
+                <option key={num} value={`JHS ${num}`}>
+                  JHS {num}
+                </option>
+              ))}
+            </select>
           </div>
 
           {/* Payment Type */}
@@ -201,7 +202,7 @@ const AddStudent: React.FC<AddStudentProps> = ({
                   ? "bg-purple-500 text-white hover:bg-purple-400"
                   : "bg-purple-600 text-white hover:bg-purple-700"
               }`}
-              disabled={loading} 
+              disabled={loading}
             >
               {loading ? "Adding..." : "Add Student"}
             </button>
