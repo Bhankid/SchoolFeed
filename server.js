@@ -8,6 +8,7 @@ import studentRoutes from "./src/routes/studentRoutes.js";
 import paymentRoutes from "./src/routes/paymentRoutes.js";
 import attendanceRoutes from "./src/routes/attendanceRoute.js"; 
 import attendanceReportRoutes from "./src/routes/attendanceReportRoute.js";
+import StudentCreditSummaryRoute from "./src/routes/StudentCreditSummaryRoute.js";
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use("/students", studentRoutes);
 app.use("/payments", paymentRoutes);
 app.use("/attendance", attendanceRoutes);
 app.use("/attendance-reports", attendanceReportRoutes);
+app.use("/", StudentCreditSummaryRoute);
 
 // Sync Database
 db.sync()

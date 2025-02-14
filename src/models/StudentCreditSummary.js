@@ -1,4 +1,4 @@
-import { DataTypes, Model } from "sequelize";
+import { DataTypes, Model, QueryTypes } from "sequelize";
 import db from "../config/database.js";
 import Payment from "./Payment.js";
 import Student from "./Student.js";
@@ -6,14 +6,12 @@ import Student from "./Student.js";
 class StudentCreditSummary extends Model {}
 
 StudentCreditSummary.init(
-  {
-    // This model does not need to store data in the database,
-    // so we don't define any fields here.
-  },
+  {},
   {
     sequelize: db,
     modelName: "StudentCreditSummary",
-    tableName: "student_credit_summaries", // Optional: If you want to use a custom table name
+    tableName: "student_credit_summaries",
+    timestamps: false, 
   }
 );
 
@@ -21,14 +19,15 @@ StudentCreditSummary.init(
 Student.hasMany(Payment, { foreignKey: "studentId" });
 Payment.belongsTo(Student, { foreignKey: "studentId" });
 
-// Static method to fetch the required data
+// Static method to fetch credit summaries
 StudentCreditSummary.fetchCreditSummaries = async () => {
   const summaries = await db.query(
     `
     SELECT 
       s.id AS studentId,
       s.name AS studentName,
-      p.paymentType,
+      s.class AS class,
+      SUM(p.amount) AS amount, 
       MAX(p.date) AS lastPaymentDate
     FROM 
       Students s
@@ -37,14 +36,20 @@ StudentCreditSummary.fetchCreditSummaries = async () => {
     WHERE 
       p.paymentType = 'Credit'
     GROUP BY 
-      s.id, s.name, p.paymentType
+      s.id, s.name, s.class
     `,
     {
-      type: db.QueryTypes.SELECT,
+      type: QueryTypes.SELECT,
     }
   );
 
-  return summaries;
+  return summaries.map((summary) => ({
+    studentId: summary.studentId,
+    studentName: summary.studentName,
+    class: summary.class,
+    amount: `₵${summary.amount.toFixed(2)}`, 
+    lastPayment: summary.lastPaymentDate || "N/A",
+  }));
 };
 
 export default StudentCreditSummary;
