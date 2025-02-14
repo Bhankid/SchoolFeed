@@ -14,6 +14,7 @@ import {
 } from "chart.js";
 import { Line, Bar, Doughnut } from "react-chartjs-2";
 import CountUp from "react-countup";
+import axios from "axios";
 
 // Register ChartJS components
 ChartJS.register(
@@ -87,24 +88,57 @@ const StatCard: React.FC<StatCardProps> = ({
 
 function Dashboard({ darkMode }: { darkMode: boolean }) {
   const [totalStudents, setTotalStudents] = useState<string>("0");
+  const [todaysCollections, setTodaysCollections] = useState<string>("₵0");
+   const [monthlyRevenue, setMonthlyRevenue] = useState<string>("₵0"); 
 
-  useEffect(() => {
-    // Fetch total number of students from the backend
-    const fetchTotalStudents = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/students/total");
-        if (!response.ok) {
-          throw new Error("Failed to fetch total students");
-        }
-        const data = await response.json();
-        setTotalStudents(data.total.toString());
-      } catch (error) {
-        console.error("Error fetching total students:", error);
-      }
-    };
+     useEffect(() => {
+       // Fetch total number of students from the backend
+       const fetchTotalStudents = async () => {
+         try {
+           const response = await fetch("http://localhost:3000/students/total");
+           if (!response.ok) {
+             throw new Error("Failed to fetch total students");
+           }
+           const data = await response.json();
+           setTotalStudents(data.total.toString());
+         } catch (error) {
+           console.error("Error fetching total students:", error);
+         }
+       };
 
-    fetchTotalStudents();
-  }, []);
+       // Fetch today's total payments from the backend
+       const fetchTodaysCollections = async () => {
+         try {
+           const response = await axios.get(
+             "http://localhost:3000/payments/today-total"
+           );
+           const total = response.data.total;
+           setTodaysCollections(`₵${total.toFixed(2)}`); // Format as currency with 2 decimal places
+         } catch (error) {
+           console.error("Error fetching today's collections:", error);
+           setTodaysCollections("₵0"); // Fallback to 0 if there's an error
+         }
+       };
+
+       // Fetch monthly revenue from the backend
+       const fetchMonthlyRevenue = async () => {
+         try {
+           const response = await axios.get(
+             "http://localhost:3000/payments/monthly-revenue"
+           );
+           const total = response.data.total;
+           setMonthlyRevenue(`₵${total.toFixed(2)}`); // Format as currency with 2 decimal places
+         } catch (error) {
+           console.error("Error fetching monthly revenue:", error);
+           setMonthlyRevenue("₵0"); // Fallback to 0 if there's an error
+         }
+       };
+
+       fetchTotalStudents();
+       fetchTodaysCollections();
+       fetchMonthlyRevenue();
+     }, []);
+  
 
   // Sample data for the charts (unchanged)
   const weeklyCollections = {
@@ -205,7 +239,7 @@ function Dashboard({ darkMode }: { darkMode: boolean }) {
         />
         <StatCard
           title="Today's Collections"
-          value="₵2,450"
+          value={todaysCollections} 
           icon={CreditCard}
           color="bg-green-500"
           darkMode={darkMode}
@@ -219,7 +253,7 @@ function Dashboard({ darkMode }: { darkMode: boolean }) {
         />
         <StatCard
           title="Monthly Revenue"
-          value="₵45,280"
+          value={monthlyRevenue} // Use the fetched value
           icon={TrendingUp}
           color="bg-purple-500"
           darkMode={darkMode}

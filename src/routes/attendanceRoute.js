@@ -29,12 +29,27 @@ router.post("/", async (req, res) => {
 // Get Attendance Records
 router.get("/", async (req, res) => {
   try {
-    const records = await Attendance.findAll();
-    res.json(records);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const offset = (page - 1) * limit;
+
+    const { count, rows: attendance } = await Attendance.findAndCountAll({
+      limit,
+      offset,
+      include: [{ model: Student, attributes: ["name", "class"] }],
+      order: [["createdAt", "DESC"]],
+    });
+
+    res.json({
+      totalItems: count,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
+      attendance,
+    });
   } catch (err) {
-    console.error("Error fetching attendance records:", err);
-    res.status(500).json({ message: "Error fetching attendance records" });
+    res.status(500).json({ error: err.message });
   }
 });
+
 
 export default router;

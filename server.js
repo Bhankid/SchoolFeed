@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
 // Routes
 app.use("/students", studentRoutes);
 app.use("/payments", paymentRoutes);
-app.use("/attendance", attendanceRoutes); // Register attendance routes
+app.use("/attendance", attendanceRoutes);
 
 // Sync Database
 db.sync()
