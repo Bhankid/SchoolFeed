@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
 function Login() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+   const handleSignIn = () => {
+     navigate("/home");
+   };
 
   return (
     <div
@@ -76,6 +79,7 @@ function Login() {
           <button
             type="submit"
             className="w-full bg-violet-600 text-white px-4 py-2 rounded-lg hover:bg-violet-700 transition-colors"
+            onClick={handleSignIn}
           >
             Sign In
           </button>

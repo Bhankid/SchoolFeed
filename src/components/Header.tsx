@@ -51,7 +51,7 @@ const Header: React.FC<HeaderProps> = ({
           )}
         </button>
         {/* Greeting */}
-        <h1 className="text-xl font-bold">SchoolFeed</h1>
+        <h1 className="text-xl font-bold">FeedTrack</h1>
         <span className="text-sm hidden sm:inline">Hello, Admin!</span>
       </div>
 
@@ -207,7 +207,7 @@ const Header: React.FC<HeaderProps> = ({
               Change Password
             </a>
             <a
-              href="#"
+              href="/logout"
               className={`block px-4 py-3 ${
                 darkMode
                   ? "text-red-400 hover:bg-red-800"

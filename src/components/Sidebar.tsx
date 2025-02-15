@@ -8,6 +8,7 @@ import {
   LogOut,
   X,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface SidebarProps {
   activeTab: string;
@@ -16,7 +17,6 @@ interface SidebarProps {
   isSidebarOpen: boolean;
   toggleSidebar: () => void; 
 }
-
 const Sidebar = ({
   activeTab,
   setActiveTab,
@@ -24,6 +24,8 @@ const Sidebar = ({
   isSidebarOpen,
   toggleSidebar,
 }: SidebarProps) => {
+  const navigate = useNavigate();
+  // Define tabs
   // Define tabs
   const tabs = [
     { id: "dashboard", name: "Dashboard", icon: Home },
@@ -58,14 +60,14 @@ const Sidebar = ({
               <span
                 className={`${darkMode ? "text-gray-300" : "text-gray-800"}`}
               >
-                School
+                Feed
               </span>
               <span
                 className={`${
                   darkMode ? "text-purple-500" : "text-purple-600"
                 }`}
               >
-                Feed
+                Track
               </span>
             </h1>
             <p className="text-sm">
@@ -113,7 +115,13 @@ const Sidebar = ({
               {tab.name}
             </button>
           ))}
+          {/* Logout Button */}
           <button
+            onClick={() => {
+              setActiveTab("logout");
+              navigate("/logout"); 
+              toggleSidebar(); // Close sidebar on mobile
+            }}
             className={`w-full flex items-center px-6 py-4 ${
               darkMode
                 ? "text-red-500 hover:bg-gray-800"

@@ -9,6 +9,7 @@ import Students from "./components/Students";
 import Payments from "./components/Payments";
 import Attendance from "./components/Attendance";
 import Alerts from "./components/Alerts";
+import Logout from "./pages/Logout";
 
 function Home() {
   const [activeTab, setActiveTab] = useState(() => {
@@ -46,6 +47,8 @@ function Home() {
         return <Attendance darkMode={darkMode} />;
       case "alerts":
         return <Alerts darkMode={darkMode} />;
+      case "logout":
+        return <Logout darkMode={darkMode} />;
       default:
         return <Dashboard darkMode={darkMode} />;
     }
