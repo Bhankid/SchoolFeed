@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Mail, Lock, User, Eye, EyeOff } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
+  const navigate = useNavigate();
   const [darkMode] = useState(() => localStorage.getItem("theme") === "dark");
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
@@ -10,18 +12,18 @@ function SignUp() {
 
   return (
     <div
-      className={`min-h-screen flex items-center justify-center px-6 transition-colors duration-300 ${
-        darkMode ? "bg-gray-950 text-gray-200" : "bg-gray-100 text-gray-900"
-      }`}
+      className={`min-h-screen flex items-center justify-center px-6 transition-colors duration-300 
+        bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 text-gray-200`}
     >
-      <div className="w-full max-w-md bg-white dark:bg-gray-900 p-8 rounded-lg shadow-xl">
+      <div className="w-full max-w-md bg-gray-900 p-8 rounded-lg shadow-xl border border-gray-800">
         <div className="flex justify-center mb-6">
           <h1 className="text-3xl font-bold">
-            <span className="text-indigo-500">School</span>Feed
+            <span className="text-indigo-400">Feed</span>Track
           </h1>
         </div>
 
         <form className="space-y-6">
+          {/* Name Input */}
           <div>
             <label className="block text-sm font-medium mb-2">Full Name</label>
             <div className="relative">
@@ -31,11 +33,12 @@ function SignUp() {
                 placeholder="Enter your name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:text-white dark:border-gray-700"
+                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-gray-800 text-white border-gray-700"
               />
             </div>
           </div>
 
+          {/* Email Input */}
           <div>
             <label className="block text-sm font-medium mb-2">Email</label>
             <div className="relative">
@@ -45,11 +48,12 @@ function SignUp() {
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:text-white dark:border-gray-700"
+                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-gray-800 text-white border-gray-700"
               />
             </div>
           </div>
 
+          {/* Password Input */}
           <div>
             <label className="block text-sm font-medium mb-2">Password</label>
             <div className="relative">
@@ -59,7 +63,7 @@ function SignUp() {
                 placeholder="Create a password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-10 pr-10 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:text-white dark:border-gray-700"
+                className="w-full pl-10 pr-10 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-gray-800 text-white border-gray-700"
               />
               <button
                 type="button"
@@ -75,9 +79,25 @@ function SignUp() {
             </div>
           </div>
 
-          <button className="w-full bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+          {/* Sign Up Button */}
+          <button
+            type="button"
+            onClick={() => navigate("/home")}
+            className="w-full bg-violet-600 text-white px-4 py-2 rounded-lg hover:bg-violet-700 transition-colors"
+          >
             Sign Up
           </button>
+
+          {/* Login Link */}
+          <p className="text-center text-sm text-gray-400">
+            Already have an account?{" "}
+            <button
+              onClick={() => navigate("/login")}
+              className="text-violet-400 hover:underline"
+            >
+              Log in
+            </button>
+          </p>
         </form>
       </div>
     </div>

@@ -11,7 +11,7 @@ IrregularPaymentSummary.init(
     sequelize: db,
     modelName: "IrregularPaymentSummary",
     tableName: "irregular_payment_summaries",
-    timestamps: false, // No actual table is created
+    timestamps: false, 
   }
 );
 
