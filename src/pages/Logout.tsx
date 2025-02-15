@@ -1,16 +1,32 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase/firebase";
+import { useAuth } from "../context/AuthContext";
 
-function Logout({ }: { darkMode: boolean }) {
+const Logout: React.FC = () => {
   const navigate = useNavigate();
+  const { user } = useAuth(); // Get the authenticated user
 
   useEffect(() => {
+    const logoutUser = async () => {
+      try {
+        if (user) {
+          await signOut(auth); // Sign out from Firebase
+        }
+        localStorage.removeItem("user");
+        localStorage.removeItem("activeTab");
+        navigate("/login"); // Redirect to login after logout
+      } catch (error) {
+        console.error("Error signing out:", error);
+      }
+    };
+
+    // Call the logout function with a slight delay for UX
     setTimeout(() => {
-      localStorage.removeItem("user"); 
-      localStorage.removeItem("activeTab"); 
-      navigate("/login"); 
-    }, 4000);
-  }, [navigate]);
+      logoutUser();
+    }, 2000);
+  }, [navigate, user]);
 
   return (
     <div
@@ -24,6 +40,6 @@ function Logout({ }: { darkMode: boolean }) {
       </div>
     </div>
   );
-}
+};
 
 export default Logout;
