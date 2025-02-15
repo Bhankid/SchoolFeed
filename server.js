@@ -9,6 +9,7 @@ import paymentRoutes from "./src/routes/paymentRoutes.js";
 import attendanceRoutes from "./src/routes/attendanceRoute.js"; 
 import attendanceReportRoutes from "./src/routes/attendanceReportRoute.js";
 import StudentCreditSummaryRoute from "./src/routes/StudentCreditSummaryRoute.js";
+import IrregularPaymentSummaryRoute from "./src/routes/irregularPaymentSummaryRoute.js";
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.get("/", (req, res) => {
       <li><a href="/payments">/payments</a> - Manage payments</li>
       <li><a href="/attendance">/attendance</a> - Manage attendance</li> 
       <li><a href="/credit-summaries">/credit-summaries</a> - Manage credit-summaries</li> 
+      <li><a href="/irregular-payments">/irregular-payments</a> - Manage irregular-payments</li> 
     </ul>
   `);
 });
@@ -35,6 +37,7 @@ app.use("/payments", paymentRoutes);
 app.use("/attendance", attendanceRoutes);
 app.use("/attendance-reports", attendanceReportRoutes);
 app.use("/", StudentCreditSummaryRoute);
+app.use("/", IrregularPaymentSummaryRoute);
 
 // Sync Database
 db.sync()

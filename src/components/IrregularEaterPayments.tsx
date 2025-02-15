@@ -1,29 +1,67 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface IrregularEaterPaymentsProps {
   darkMode: boolean;
 }
 
+interface StudentPayment {
+  studentId: number;
+  studentName: string;
+  class: string;
+  balance: string;
+  lastMeal: string;
+  mealCount: number; // Ensure meal count is always a number
+}
+
 const IrregularEaterPayments: React.FC<IrregularEaterPaymentsProps> = ({ darkMode }) => {
-  const students = [
-    { id: 1, name: "Kofi Owusu", class: "Class 1", balance: "₵50.00", lastMeal: "2025-02-19", mealCount: "8 meals" },
-    { id: 2, name: "Ama Mensah", class: "Class 2", balance: "₵30.00", lastMeal: "2025-02-20", mealCount: "6 meals" },
-    { id: 3, name: "Yaw Boafo", class: "Class 3", balance: "₵40.00", lastMeal: "2025-02-18", mealCount: "7 meals" },
-    { id: 4, name: "Esi Appiah", class: "Class 4", balance: "₵45.00", lastMeal: "2025-02-12", mealCount: "5 meals" },
-    { id: 5, name: "Kojo Antwi", class: "Class 5", balance: "₵70.00", lastMeal: "2025-02-14", mealCount: "9 meals" },
-    { id: 6, name: "Yaw Boateng", class: "Class 6", balance: "₵25.00", lastMeal: "2025-02-16", mealCount: "4 meals" },
-  ];
+  const [students, setStudents] = useState<StudentPayment[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const studentsPerPage = 5;
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const studentsPerPage = 5; 
+  useEffect(() => {
+    const fetchIrregularPayments = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/irregular-payments");
+        if (!response.ok) {
+          throw new Error("Failed to fetch irregular eater payments");
+        }
+        const data = await response.json();
 
-  const totalPages = Math.ceil(students.length / studentsPerPage);
-  const indexOfLastStudent = currentPage * studentsPerPage;
-  const indexOfFirstStudent = indexOfLastStudent - studentsPerPage;
-  const currentStudents = students.slice(indexOfFirstStudent, indexOfLastStudent);
+        if (data.success && Array.isArray(data.data)) {
+          // Process and calculate meal count
+          const processedData: StudentPayment[] = data.data.map((student: StudentPayment) => {
+            const lastMealDate = new Date(student.lastMeal);
+            const daysInMonth = new Date(lastMealDate.getFullYear(), lastMealDate.getMonth() + 1, 0).getDate();
 
-  const handlePageChange = (page: number) => {
+            // Ensure meal count is a valid number that accumulates each time a meal is recorded
+            const mealCount = Number.isFinite(student.mealCount) ? student.mealCount : 0;
+
+            return {
+              ...student,
+              mealCount: mealCount, // Keeps adding up when a meal is recorded
+            };
+          });
+
+          setStudents(processedData);
+        } else {
+          console.error("Invalid response format:", data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching irregular eater payments:", error);
+      }
+    };
+
+    fetchIrregularPayments();
+  }, []);
+
+  // Pagination logic
+  const totalPages: number = Math.ceil(students.length / studentsPerPage);
+  const indexOfLastStudent: number = currentPage * studentsPerPage;
+  const indexOfFirstStudent: number = indexOfLastStudent - studentsPerPage;
+  const currentStudents: StudentPayment[] = students.slice(indexOfFirstStudent, indexOfLastStudent);
+
+  const handlePageChange = (page: number): void => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
     }
@@ -49,20 +87,18 @@ const IrregularEaterPayments: React.FC<IrregularEaterPaymentsProps> = ({ darkMod
           <tbody className={`${darkMode ? "divide-gray-700" : "divide-gray-200"}`}>
             {currentStudents.map((student, index) => (
               <tr
-                key={student.id}
+                key={student.studentId}
                 className={`hover:${darkMode ? "bg-gray-700" : "bg-gray-100"} ${
                   index % 2 === 0 ? (darkMode ? "bg-gray-800" : "bg-white") : darkMode ? "bg-gray-900" : "bg-gray-50"
                 }`}
               >
                 <td className="px-4 py-4 whitespace-nowrap">
                   <div className={`text-sm font-medium ${darkMode ? "text-gray-100" : "text-gray-900"}`}>
-                    {student.name}
+                    {student.studentName}
                   </div>
                   <div className={`text-sm ${darkMode ? "text-gray-300" : "text-gray-500"}`}>{student.class}</div>
                 </td>
-                <td className="px-4 py-4 whitespace-nowrap">
-                  <div className="text-sm text-red-600">{student.balance}</div>
-                </td>
+                <td className="px-4 py-4 whitespace-nowrap text-red-600">{student.balance}</td>
                 <td className="px-4 py-4 whitespace-nowrap">
                   <div className={`text-sm ${darkMode ? "text-gray-100" : "text-gray-600"}`}>{student.lastMeal}</div>
                 </td>
