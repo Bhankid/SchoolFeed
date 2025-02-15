@@ -23,7 +23,8 @@ app.get("/", (req, res) => {
     <ul>
       <li><a href="/students">/students</a> - Manage students</li>
       <li><a href="/payments">/payments</a> - Manage payments</li>
-      <li><a href="/attendance">/attendance</a> - Manage attendance</li> <!-- Add attendance link -->
+      <li><a href="/attendance">/attendance</a> - Manage attendance</li> 
+      <li><a href="/credit-summaries">/credit-summaries</a> - Manage credit-summaries</li> 
     </ul>
   `);
 });

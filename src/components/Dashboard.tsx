@@ -89,7 +89,8 @@ const StatCard: React.FC<StatCardProps> = ({
 function Dashboard({ darkMode }: { darkMode: boolean }) {
   const [totalStudents, setTotalStudents] = useState<string>("0");
   const [todaysCollections, setTodaysCollections] = useState<string>("₵0");
-   const [monthlyRevenue, setMonthlyRevenue] = useState<string>("₵0"); 
+  const [monthlyRevenue, setMonthlyRevenue] = useState<string>("₵0"); 
+  const [pendingPayments, setPendingPayments] = useState<string>("₵0");
 
      useEffect(() => {
        // Fetch total number of students from the backend
@@ -134,9 +135,39 @@ function Dashboard({ darkMode }: { darkMode: boolean }) {
          }
        };
 
+
+         // Fetch pending payments (total of all credit transactions)
+ const fetchPendingPayments = async () => {
+   try {
+     const response = await fetch("http://localhost:3000/credit-summaries");
+     if (!response.ok) {
+       throw new Error("Failed to fetch pending payments");
+     }
+
+     const data = await response.json();
+
+     // Convert all amounts to numbers and sum them up
+     const totalPending = data.data.reduce(
+       (sum: number, summary: { amount: string }) => {
+         const numericAmount = parseFloat(summary.amount.replace("₵", "")) || 0;
+         return sum + numericAmount;
+       },
+       0
+     );
+
+     // Update state with the formatted total
+     setPendingPayments(`₵${totalPending.toFixed(2)}`);
+   } catch (error) {
+     console.error("Error fetching pending payments:", error);
+     setPendingPayments("₵0.00"); 
+   }
+ };
+
+
        fetchTotalStudents();
        fetchTodaysCollections();
        fetchMonthlyRevenue();
+        fetchPendingPayments();
      }, []);
   
 
@@ -239,21 +270,21 @@ function Dashboard({ darkMode }: { darkMode: boolean }) {
         />
         <StatCard
           title="Today's Collections"
-          value={todaysCollections} 
+          value={todaysCollections}
           icon={CreditCard}
           color="bg-green-500"
           darkMode={darkMode}
         />
         <StatCard
           title="Pending Payments"
-          value="28"
+          value={pendingPayments}
           icon={Bell}
           color="bg-orange-500"
           darkMode={darkMode}
         />
         <StatCard
           title="Monthly Revenue"
-          value={monthlyRevenue} // Use the fetched value
+          value={monthlyRevenue}
           icon={TrendingUp}
           color="bg-purple-500"
           darkMode={darkMode}
