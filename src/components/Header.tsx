@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { Search, Bell, ChevronDown, Menu, X, Sun, Moon } from "lucide-react";
+import { Bell, ChevronDown, Menu, X, Sun, Moon } from "lucide-react";
+import SearchBar from "./SearchBar";
+import ProfileDropdownMenu from "./ProfileDropdownMenu";
 
 interface HeaderProps {
   toggleSidebar: () => void;
@@ -7,14 +9,13 @@ interface HeaderProps {
   darkMode: boolean;
   toggleDarkMode: () => void;
 }
-
 const Header: React.FC<HeaderProps> = ({
   toggleSidebar,
   isSidebarOpen,
   darkMode,
   toggleDarkMode,
 }) => {
-  const [searchTerm, setSearchTerm] = useState("");
+
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isNotificationDropdownOpen, setIsNotificationDropdownOpen] =
     useState(false);
@@ -56,21 +57,8 @@ const Header: React.FC<HeaderProps> = ({
       </div>
 
       {/* Middle Section: Search Bar (Hidden on Mobile) */}
-      <div className="relative w-full max-w-md hidden sm:block">
-        <input
-          type="text"
-          placeholder="Search..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-            darkMode
-              ? "bg-gray-800 text-gray-300 focus:ring-indigo-500"
-              : "bg-white text-gray-700 focus:ring-indigo-500"
-          } shadow-sm`}
-        />
-        <Search className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
-      </div>
-
+      <SearchBar darkMode={darkMode} />
+      
       {/* Right Section: Notifications, Dark Mode Toggle & Profile */}
       <div className="flex items-center space-x-4">
         {/* Notification Icon with Dropdown */}
@@ -177,7 +165,12 @@ const Header: React.FC<HeaderProps> = ({
             />
           </button>
           {/* Profile Dropdown Menu */}
-          <div
+           <ProfileDropdownMenu
+        isProfileDropdownOpen={isProfileDropdownOpen}
+        darkMode={darkMode}
+        toggleProfileDropdown={toggleProfileDropdown}
+      />
+          {/* <div
             className={`absolute right-0 mt-4 w-52 z-50 ${
               darkMode ? "bg-gray-800 text-gray-300" : "bg-white text-gray-700"
             } bg-opacity-90 backdrop-blur-md rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 ${
@@ -216,7 +209,7 @@ const Header: React.FC<HeaderProps> = ({
             >
               Logout
             </a>
-          </div>
+          </div> */}
         </div>
       </div>
     </header>

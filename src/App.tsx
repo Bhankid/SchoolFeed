@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "./context/AuthContext"; // Ensure AuthProvider is wrapping everything
-import ProtectedRoute from "./routes/ProtectedRoute"; // Import ProtectedRoute
+import { AuthProvider } from "./context/AuthContext"; 
+import ProtectedRoute from "./routes/ProtectedRoute";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import Home from "./Home";

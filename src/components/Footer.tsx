@@ -10,10 +10,10 @@ function Footer({ darkMode }: { darkMode: boolean }) {
       <div className="flex justify-center items-center flex-wrap md:flex-nowrap">
         {/* Copyright */}
         <p className="text-sm mr-4 mb-2 md:mb-0">
-          &copy; {new Date().getFullYear()} SchoolFeed. All rights reserved.
+          &copy; {new Date().getFullYear()} FeedTrack. All rights reserved.
         </p>
         {/* Version */}
-        <p className="text-sm mr-4 mb-2 md:mb-0">Version 1.0.0 Alpha</p>
+        <p className="text-sm mr-4 mb-2 md:mb-0">Version 1.0.2 Beta</p>
         {/* Developer Link */}
         <p className="text-sm mb-2 md:mb-0">
           Developed by{" "}
