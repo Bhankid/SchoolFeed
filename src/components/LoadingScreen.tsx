@@ -35,12 +35,12 @@ function LoadingScreen({ onLoaded }: { onLoaded: () => void }) {
         </div>
 
         {/* Loading Text with Pulse Animation */}
-        <p
+        <h1
           className="text-white text-lg font-semibold animate-pulse"
           style={{ animationDuration: "1.5s" }}
         >
           Loading...
-        </p>
+        </h1>
 
         {/* Progress Percentage */}
         <p className="text-green-600 text-sm mt-2">{loadingProgress}%</p>

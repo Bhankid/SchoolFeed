@@ -10,16 +10,21 @@ import attendanceRoutes from "./src/routes/attendanceRoute.js";
 import attendanceReportRoutes from "./src/routes/attendanceReportRoute.js";
 import StudentCreditSummaryRoute from "./src/routes/StudentCreditSummaryRoute.js";
 import IrregularPaymentSummaryRoute from "./src/routes/irregularPaymentSummaryRoute.js";
+import accountSettingsRoutes from "./src/routes/accountSettings.js";
+
 
 const app = express();
 
+// Middleware
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use("/uploads", express.static("uploads")); 
 
 // Default Root Route
 app.get("/", (req, res) => {
   res.send(`
-    <h1>Welcome to School Feed API 🚀</h1>
+    <h1>Welcome to Feedtrack API 🚀</h1>
     <p>Use the following endpoints:</p>
     <ul>
       <li><a href="/students">/students</a> - Manage students</li>
@@ -27,6 +32,7 @@ app.get("/", (req, res) => {
       <li><a href="/attendance">/attendance</a> - Manage attendance</li> 
       <li><a href="/credit-summaries">/credit-summaries</a> - Manage credit-summaries</li> 
       <li><a href="/irregular-payments">/irregular-payments</a> - Manage irregular-payments</li> 
+      <li><a href="/account-settings">/account-settings</a> - Manage account-settings</li> 
     </ul>
   `);
 });
@@ -38,6 +44,7 @@ app.use("/attendance", attendanceRoutes);
 app.use("/attendance-reports", attendanceReportRoutes);
 app.use("/", StudentCreditSummaryRoute);
 app.use("/", IrregularPaymentSummaryRoute);
+app.use("/account-settings", accountSettingsRoutes);
 
 // Sync Database
 db.sync()
