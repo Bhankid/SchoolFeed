@@ -6,6 +6,7 @@ import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import Home from "./Home";
 import Logout from "./pages/Logout";
+import MealPayments from "./components/MealPayments";
 
 const App: React.FC = () => {
   return (
@@ -24,6 +25,7 @@ const App: React.FC = () => {
               </ProtectedRoute>
             }
           />
+          <Route path="/meal-payments" element={<MealPayments />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
