@@ -8,7 +8,7 @@ interface HeaderProps {
   isSidebarOpen: boolean;
   darkMode: boolean;
   toggleDarkMode: () => void;
-}
+} 
 const Header: React.FC<HeaderProps> = ({
   toggleSidebar,
   isSidebarOpen,
@@ -166,9 +166,9 @@ const Header: React.FC<HeaderProps> = ({
           </button>
           {/* Profile Dropdown Menu */}
            <ProfileDropdownMenu
-        isProfileDropdownOpen={isProfileDropdownOpen}
-        darkMode={darkMode}
-        toggleProfileDropdown={toggleProfileDropdown}
+            isProfileDropdownOpen={isProfileDropdownOpen}
+            darkMode={darkMode}
+           toggleProfileDropdown={toggleProfileDropdown}
       />
           {/* <div
             className={`absolute right-0 mt-4 w-52 z-50 ${
