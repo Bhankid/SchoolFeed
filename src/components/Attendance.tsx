@@ -84,7 +84,7 @@ function Attendance({ darkMode }: { darkMode: boolean }) {
           darkMode ? "bg-gray-800" : "bg-white"
         } rounded-lg shadow-md p-6 transition-colors duration-300`}
       >
-        {/* Search Bar, Date Picker, Class Selection, and Mark All Present Controls */}
+        {/* Search Bar, Date Picker, Class Selection */}
         <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-6">
           {/* Search Bar */}
           <input
@@ -92,7 +92,7 @@ function Attendance({ darkMode }: { darkMode: boolean }) {
             placeholder="Search by Name, Class, or Status"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className={`w-full sm:max-w-xs border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 ${
+            className={`w-full flex-1 sm:max-w-xs border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 ${
               darkMode
                 ? "focus:ring-purple-500 bg-gray-700 text-gray-300"
                 : "focus:ring-purple-500 bg-white text-gray-700"
@@ -103,7 +103,7 @@ function Attendance({ darkMode }: { darkMode: boolean }) {
             type="date"
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
-            className={`border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 ${
+            className={`border flex-1 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 ${
               darkMode
                 ? "focus:ring-purple-500 bg-gray-700 text-gray-300"
                 : "focus:ring-purple-500 bg-white text-gray-700"
@@ -113,7 +113,7 @@ function Attendance({ darkMode }: { darkMode: boolean }) {
           <select
             value={selectedClass}
             onChange={(e) => setSelectedClass(e.target.value)}
-            className={`border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 ${
+            className={`border flex-1 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 ${
               darkMode
                 ? "focus:ring-purple-500 bg-gray-700 text-gray-300"
                 : "focus:ring-purple-500 bg-white text-gray-700"
@@ -135,8 +135,14 @@ function Attendance({ darkMode }: { darkMode: boolean }) {
               darkMode ? "divide-gray-700" : "divide-gray-200"
             }`}
           >
-            <thead className={darkMode ? "bg-gray-800" : "bg-gray-50"}>
-              <tr className="text-gray-500">
+            <thead
+              className={`${
+                darkMode
+                  ? "bg-gray-800 text-gray-200"
+                  : "bg-gray-50 text-gray-500"
+              }`}
+            >
+              <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium uppercase">
                   Student
                 </th>
@@ -151,34 +157,65 @@ function Attendance({ darkMode }: { darkMode: boolean }) {
                 </th>
               </tr>
             </thead>
-            <tbody className={darkMode ? "bg-gray-900" : "bg-white"}>
-              {currentStudents.map((student) => (
-                <tr key={student.id} className="hover:bg-gray-100">
-                  <td className="px-6 py-4 whitespace-nowrap">{student.name}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{student.class}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span
-                      className={`px-2 inline-flex text-xs font-semibold rounded-full ${
-                        student.status === "Present"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-red-100 text-red-800"
-                      }`}
-                    >
-                      {student.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex space-x-2">
-                      <button className="p-1 rounded-full hover:bg-green-100">
-                        <Check className="w-5 h-5 text-green-600" />
-                      </button>
-                      <button className="p-1 rounded-full hover:bg-red-100">
-                        <X className="w-5 h-5 text-red-600" />
-                      </button>
-                    </div>
+            <tbody
+              className={`${darkMode ? "divide-gray-700" : "divide-gray-200"}`}
+            >
+              {currentStudents.length > 0 ? (
+                currentStudents.map((student, index) => (
+                  <tr
+                    key={student.id}
+                    className={`${
+                      darkMode ? "text-gray-100" : "text-gray-700"
+                    } ${
+                      index % 2 === 1
+                        ? darkMode
+                          ? "bg-gray-900"
+                          : "bg-gray-100"
+                        : ""
+                    } hover:${
+                      darkMode ? "bg-gray-700" : "bg-gray-200"
+                    } transition-colors`}
+                  >
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {student.name}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {student.class}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span
+                        className={`px-2 inline-flex text-xs font-semibold rounded-full ${
+                          student.status === "Present"
+                            ? darkMode
+                              ? "bg-green-900 text-green-400"
+                              : "bg-green-100 text-green-800"
+                            : darkMode
+                            ? "bg-red-900 text-red-400"
+                            : "bg-red-100 text-red-800"
+                        }`}
+                      >
+                        {student.status}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex space-x-2">
+                        <button className="p-1 rounded-full hover:bg-green-100">
+                          <Check className="w-5 h-5 text-green-600" />
+                        </button>
+                        <button className="p-1 rounded-full hover:bg-red-100">
+                          <X className="w-5 h-5 text-red-600" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={4} className="text-center py-4">
+                    No attendance records found.
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
@@ -204,7 +241,9 @@ function Attendance({ darkMode }: { darkMode: boolean }) {
                 key={i + 1}
                 onClick={() => handlePageChange(i + 1)}
                 className={`px-4 py-2 rounded-md ${
-                  currentPage === i + 1 ? "bg-purple-500 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                  currentPage === i + 1
+                    ? "bg-purple-500 text-white"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                 }`}
               >
                 {i + 1}
@@ -215,7 +254,11 @@ function Attendance({ darkMode }: { darkMode: boolean }) {
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="px-4 py-2 rounded-md flex items-center space-x-2 bg-gray-200 text-gray-700 hover:bg-gray-300"
+            className={`px-4 py-2 rounded-md flex items-center space-x-2 ${
+              currentPage === totalPages
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+            }`}
           >
             <span>Next</span>
             <ChevronRight className="w-4 h-4" />
