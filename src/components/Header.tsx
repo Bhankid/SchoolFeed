@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Bell, ChevronDown, Menu, X, Sun, Moon } from "lucide-react";
 import SearchBar from "./SearchBar";
 import ProfileDropdownMenu from "./ProfileDropdownMenu";
@@ -8,17 +9,44 @@ interface HeaderProps {
   isSidebarOpen: boolean;
   darkMode: boolean;
   toggleDarkMode: () => void;
-} 
+}
+
 const Header: React.FC<HeaderProps> = ({
   toggleSidebar,
   isSidebarOpen,
   darkMode,
   toggleDarkMode,
 }) => {
-
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isNotificationDropdownOpen, setIsNotificationDropdownOpen] =
     useState(false);
+  const [username, setUsername] = useState<string | null>(null);
+
+  // Fetch user settings
+  useEffect(() => {
+    const fetchUserSettings = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/account-settings");
+        setUsername(response.data.username || "Admin"); // Use "Admin" as fallback
+      } catch (error) {
+        console.error("Error fetching user settings:", error);
+        setUsername("Admin"); // Fallback in case of error
+      }
+    };
+    fetchUserSettings();
+  }, []);
+
+  // Helper function to determine the greeting based on the time of day
+  const getGreeting = () => {
+    const currentHour = new Date().getHours();
+    if (currentHour < 12) {
+      return "Good Morning";
+    } else if (currentHour < 18) {
+      return "Good Afternoon";
+    } else {
+      return "Good Evening";
+    }
+  };
 
   // Toggle Profile Dropdown
   const toggleProfileDropdown = () => {
@@ -53,19 +81,19 @@ const Header: React.FC<HeaderProps> = ({
         </button>
         {/* Greeting */}
         <h1 className="text-xl font-bold">FeedTrack</h1>
-        <span className="text-sm hidden sm:inline">Hello, Admin!</span>
+        <span className="text-sm hidden sm:inline">
+          {getGreeting()}, {username}!
+        </span>
       </div>
-
       {/* Middle Section: Search Bar (Hidden on Mobile) */}
       <SearchBar darkMode={darkMode} />
-      
       {/* Right Section: Notifications, Dark Mode Toggle & Profile */}
       <div className="flex items-center space-x-4">
         {/* Notification Icon with Dropdown */}
         <div className="relative">
           <button
             onClick={toggleNotificationDropdown}
-            className="p-2 rounded-full transition-colors duration-200 hover:bg-gray-200 dark:hover:bg-gray-800"
+            className="p-2 rounded-full transition-colors duration-200 hover:bg-gray-400 dark:hover:bg-gray-800"
           >
             <Bell className="w-6 h-6 cursor-pointer hover:text-gray-300 transition-colors duration-200" />
           </button>
@@ -129,7 +157,6 @@ const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
         </div>
-
         {/* Dark Mode Toggle */}
         <button
           onClick={toggleDarkMode}
@@ -141,14 +168,12 @@ const Header: React.FC<HeaderProps> = ({
             <Moon className="w-5 h-5 text-gray-400" />
           )}
         </button>
-
         {/* User Profile Dropdown */}
         <div className="relative">
           <button
             onClick={toggleProfileDropdown}
             className="flex items-center space-x-2 cursor-pointer focus:outline-none"
           >
-            {/* Profile Image */}
             <img
               src="/self.jpg"
               alt="Profile Photo"
@@ -165,51 +190,11 @@ const Header: React.FC<HeaderProps> = ({
             />
           </button>
           {/* Profile Dropdown Menu */}
-           <ProfileDropdownMenu
+          <ProfileDropdownMenu
             isProfileDropdownOpen={isProfileDropdownOpen}
             darkMode={darkMode}
-           toggleProfileDropdown={toggleProfileDropdown}
-      />
-          {/* <div
-            className={`absolute right-0 mt-4 w-52 z-50 ${
-              darkMode ? "bg-gray-800 text-gray-300" : "bg-white text-gray-700"
-            } bg-opacity-90 backdrop-blur-md rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 ${
-              isProfileDropdownOpen
-                ? "translate-y-2 scale-100 opacity-100"
-                : "translate-y-0 scale-95 opacity-0 pointer-events-none"
-            }`}
-          >
-            <a
-              href="#"
-              className={`block px-4 py-3 ${
-                darkMode
-                  ? "hover:bg-gray-700"
-                  : "hover:bg-indigo-50 text-gray-700"
-              } transition-colors`}
-            >
-              Account Settings
-            </a>
-            <a
-              href="#"
-              className={`block px-4 py-3 ${
-                darkMode
-                  ? "hover:bg-gray-700"
-                  : "hover:bg-indigo-50 text-gray-700"
-              } transition-colors`}
-            >
-              Change Password
-            </a>
-            <a
-              href="/logout"
-              className={`block px-4 py-3 ${
-                darkMode
-                  ? "text-red-400 hover:bg-red-800"
-                  : "text-red-600 hover:bg-red-50"
-              } transition-colors`}
-            >
-              Logout
-            </a>
-          </div> */}
+            toggleProfileDropdown={toggleProfileDropdown}
+          />
         </div>
       </div>
     </header>
