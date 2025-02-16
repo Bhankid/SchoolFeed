@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 
 const AccountSettings: React.FC = () => {
-  const [username, setUsername] = useState("Dev Fred");
-    const [email, setEmail] = useState("alfredfianyo50@gmail.com");
-    const [password, setPassword] = useState("");
-    const [profilePhoto, setProfilePhoto] = useState("");
-    const [bannerImage, setBannerImage] = useState("");
+  const [username, setUsername] = useState("");
+  const [userRole, setUserRole] = useState("");
+  const [schoolName, setSchoolName] = useState("");
+  const [location, setLocation] = useState("");
+  const [profilePhoto, setProfilePhoto] = useState("");
+  const [bannerImage, setBannerImage] = useState("");
 
-  const handleProfilePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleProfilePhotoChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (event.target.files && event.target.files[0]) {
       setProfilePhoto(URL.createObjectURL(event.target.files[0]));
     }
@@ -65,34 +68,50 @@ const AccountSettings: React.FC = () => {
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="w-full mt-1 px-4 py-2 border rounded-lg dark:bg-gray-700 dark:text-white"
+            placeholder="Enter your username"
+            className="w-full mt-1 px-4 py-2 border border-gray-400 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 rounded-lg dark:bg-gray-700 dark:text-white outline-none transition"
           />
         </div>
 
-        {/* Email */}
+        {/* User Role */}
         <div className="mb-4">
           <label className="block font-medium text-gray-700 dark:text-gray-300">
-            Email
+            User Role
           </label>
           <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full mt-1 px-4 py-2 border rounded-lg dark:bg-gray-700 dark:text-white"
+            type="text"
+            value={userRole}
+            onChange={(e) => setUserRole(e.target.value)}
+            placeholder="Enter your role (e.g., Student, Teacher)"
+            className="w-full mt-1 px-4 py-2 border border-gray-400 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 rounded-lg dark:bg-gray-700 dark:text-white outline-none transition"
           />
         </div>
 
-        {/* Password */}
-        <div className="mb-6">
+        {/* School Name */}
+        <div className="mb-4">
           <label className="block font-medium text-gray-700 dark:text-gray-300">
-            New Password
+            School Name
           </label>
           <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full mt-1 px-4 py-2 border rounded-lg dark:bg-gray-700 dark:text-white"
-            placeholder="••••••••"
+            type="text"
+            value={schoolName}
+            onChange={(e) => setSchoolName(e.target.value)}
+            placeholder="Enter your school name"
+            className="w-full mt-1 px-4 py-2 border border-gray-400 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 rounded-lg dark:bg-gray-700 dark:text-white outline-none transition"
+          />
+        </div>
+
+        {/* Location */}
+        <div className="mb-6">
+          <label className="block font-medium text-gray-700 dark:text-gray-300">
+            Location
+          </label>
+          <input
+            type="text"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            placeholder="Enter your location"
+            className="w-full mt-1 px-4 py-2 border border-gray-400 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 rounded-lg dark:bg-gray-700 dark:text-white outline-none transition"
           />
         </div>
 
