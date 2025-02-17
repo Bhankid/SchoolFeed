@@ -6,53 +6,94 @@ import {
   ChevronRight,
 } from "lucide-react";
 
+interface Payment {
+  id: string;
+  amount: number;
+  balance: number;
+  date: string;
+  paymentMode: string;
+  paymentType: string;
+  Student?: {
+    name: string;
+  };
+}
+
 interface PaymentsTableProps {
   darkMode: boolean;
 }
 
 const PaymentTable: React.FC<PaymentsTableProps> = ({ darkMode }) => {
-  const [payments, setPayments] = useState([]);
+  const [payments, setPayments] = useState<Payment[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [selectedDate, setSelectedDate] = useState(""); // State for selected date
+  const [allPayments, setAllPayments] = useState<Payment[]>([]); // Store all fetched payments for client-side filtering
 
   // Fetch payments from backend
   const fetchPayments = async (page = 1, limit = 10) => {
     setLoading(true);
     try {
-      const response = await fetch(
-        `http://localhost:3000/payments?page=${page}&limit=${limit}`
-      );
+      let url = `http://localhost:3000/payments?page=${page}&limit=${limit}`;
+      if (selectedDate) {
+        url += `&date=${selectedDate}`; // Append the selected date as a query parameter
+      }
+
+      const response = await fetch(url);
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
-
       if (!Array.isArray(data.payments)) {
         throw new Error(
           "Invalid response format: 'payments' must be an array."
         );
       }
 
-      setPayments(data.payments);
+      // Sort payments by date in descending order (most recent first)
+      const sortedPayments = [...data.payments].sort((a, b) => {
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      });
+
+      setPayments(sortedPayments);
+      setAllPayments(sortedPayments); // Store all payments for client-side filtering
       setTotalPages(data.totalPages || 1);
       setCurrentPage(data.currentPage || 1);
     } catch (error) {
-        if (error instanceof Error) {
-            console.error("Error fetching payments:", error.message);
-        } else {
-            console.error("Error fetching payments:", error);
-        }
-        setPayments([]);
-        setTotalPages(1);
+      if (error instanceof Error) {
+        console.error("Error fetching payments:", error.message);
+      } else {
+        console.error("Error fetching payments:", error);
+      }
+      setPayments([]);
+      setAllPayments([]);
+      setTotalPages(1);
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchPayments(currentPage);
+    fetchPayments(currentPage); // Fetch payments when the component mounts or currentPage changes
   }, [currentPage]);
+
+  useEffect(() => {
+    setCurrentPage(1); // Reset to the first page when the date changes
+    fetchPayments(1); // Fetch payments with the new date filter
+  }, [selectedDate]);
+
+  // Client-side filtering based on selected date
+  useEffect(() => {
+    if (selectedDate && allPayments.length > 0) {
+      const filteredPayments = allPayments.filter((payment: any) => {
+        const paymentDate = new Date(payment.date).toISOString().split("T")[0]; // Extract date part
+        return paymentDate === selectedDate;
+      });
+      setPayments(filteredPayments); // Update payments state with filtered results
+    } else {
+      setPayments(allPayments); // Show all payments if no date is selected
+    }
+  }, [selectedDate, allPayments]);
 
   // Handle pagination click
   const handlePageChange = (page: number) => {
@@ -77,6 +118,19 @@ const PaymentTable: React.FC<PaymentsTableProps> = ({ darkMode }) => {
           >
             Recent Payments
           </h3>
+
+          {/* Date Picker */}
+          <input
+            type="date"
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
+            className={`border rounded px-2 py-1 focus:outline-none focus:ring-2 ${
+              darkMode
+                ? "focus:ring-purple-500 bg-gray-700 text-gray-300"
+                : "focus:ring-purple-500 bg-white text-gray-700"
+            }`}
+          />
+
           <span
             className={`text-sm font-medium ${
               darkMode ? "text-blue-400" : "text-blue-500"
@@ -216,7 +270,6 @@ const PaymentTable: React.FC<PaymentsTableProps> = ({ darkMode }) => {
             <ChevronLeft className="w-4 h-4" />
             <span>Previous</span>
           </button>
-
           <div className="flex space-x-2">
             {[...Array(totalPages)].map((_, i) => (
               <button
@@ -232,7 +285,6 @@ const PaymentTable: React.FC<PaymentsTableProps> = ({ darkMode }) => {
               </button>
             ))}
           </div>
-
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
